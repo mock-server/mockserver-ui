@@ -60,6 +60,7 @@ class RequestMatcher extends Component {
                 }}>
                     <label className={!this.props.requestMatcher.filter ? "disabled" : "enabled"} htmlFor=".method">Method:</label>
                     <Control.select disabled={!this.props.requestMatcher.filter} model=".method" id=".method">
+                        <option value=""></option>
                         <option value="CONNECT">CONNECT</option>
                         <option value="DELETE">DELETE</option>
                         <option value="GET">GET</option>
