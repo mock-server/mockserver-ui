@@ -56,7 +56,7 @@ class ExpectationList extends Component {
                         }
                     }>
                         <div className="header">Recorded Requests</div>
-                        {this.renderJsonList(recordedRequests, 1)}
+                        {this.renderJsonList(recordedRequests, 2)}
                     </div>
                     <div style={
                         {
