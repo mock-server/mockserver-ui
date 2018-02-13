@@ -3,7 +3,8 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import ReactJson from 'react-json-view'
+import LogList from "../containers/LogList"
+import JsonList from "../containers/JsonList"
 import './scroll.css'
 
 class ExpectationList extends Component {
@@ -56,7 +57,7 @@ class ExpectationList extends Component {
                         }
                     }>
                         <div className="header">Recorded Requests</div>
-                        {this.renderJsonList(recordedRequests, 2)}
+                        <JsonList jsonItems={recordedRequests}/>
                     </div>
                     <div style={
                         {
@@ -66,7 +67,7 @@ class ExpectationList extends Component {
                         }
                     }>
                         <div className="header">Active Expectations</div>
-                        {this.renderJsonList(activeExpectations, 2)}
+                        <JsonList jsonItems={activeExpectations}/>
                     </div>
                 </div>
                 <div className="row" style={
@@ -75,90 +76,12 @@ class ExpectationList extends Component {
                         "borderWidth": "3px"
                     }
                 }>
-                    <div style={{
-                        padding: "2px 1%"
-                    }}>
-                        <div className="header">Log Messages</div>
-                        {this.renderLogList(logMessages)}
-                    </div>
+                    <LogList logMessages={logMessages}/>
                 </div>
                 {recordedExpectationsTitle}
-                {this.renderJsonList(recordedExpectations, 2)}
+                <JsonList jsonItems={recordedExpectations}/>
             </div>
         )
-    }
-
-    renderJson(key, value, collapsed = 1) {
-        return (
-            <ReactJson
-                key={key}
-                src={value}
-                style={
-                    {
-                        padding: "10px",
-                        transform: "scaleX(-1)",
-                        marginRight: "3px"
-                    }
-                }
-                name={null}
-                theme={"tomorrow"}
-                iconStyle={"triangle"}
-                indentWidth={4}
-                collapsed={collapsed}
-                collapseStringsAfterLength={250}
-                shouldCollapse={(field) => {
-                    return false
-                }}
-                enableClipboard={false}
-                displayObjectSize={false}
-                displayDataTypes={false}
-                onEdit={false}
-                onAdd={false}
-                onDelete={false}
-            />
-        )
-    }
-
-    renderJsonList(jsonItems, collapsed) {
-        return <div id="style-5" style={{
-            overflowY: "scroll",
-            maxHeight: "400px",
-            transform: "scaleX(-1)",
-            backgroundColor: "rgb(251, 251, 251)",
-            borderRadius: "5px"
-        }}>
-            {jsonItems.map((jsonItem) => this.renderJson(jsonItem.key, jsonItem.value, collapsed))}
-        </div>;
-    }
-
-    renderLog(key, value) {
-        return (
-            <pre className="log"
-                 key={key}
-                 style={
-                     {
-                         padding: "5px",
-                         transform: "scaleX(-1)",
-                         marginTop: "0",
-                         marginRight: "5px",
-                         marginBottom: "5px",
-                         marginLeft: 0,
-                         borderRadius: "2px",
-                         backgroundColor: "rgb(29, 31, 33)",
-                         color: "rgb(250, 250, 250)"
-                     }
-                 }>{value}</pre>
-        )
-    }
-
-    renderLogList(logMessages) {
-        return <div id="style-5" style={{
-            overflowY: "scroll",
-            maxHeight: "400px",
-            transform: "scaleX(-1)"
-        }}>
-            {logMessages.map((logMessage) => this.renderLog(logMessage.key, logMessage.value, false))}
-        </div>;
     }
 }
 

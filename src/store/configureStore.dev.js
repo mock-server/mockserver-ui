@@ -1,7 +1,6 @@
 import {applyMiddleware, createStore} from 'redux'
 import thunk from 'redux-thunk'
 import {createLogger} from 'redux-logger'
-import api from '../middleware/api'
 import socket from '../middleware/socket'
 import rootReducer from '../reducers'
 
@@ -9,7 +8,7 @@ const configureStore = preloadedState => {
     const store = createStore(
         rootReducer,
         preloadedState,
-        applyMiddleware(thunk, api, socket, createLogger())
+        applyMiddleware(thunk, socket, createLogger())
     );
 
     if (module.hot) {
