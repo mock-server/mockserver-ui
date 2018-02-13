@@ -9,6 +9,6 @@ const App = () => (
         <ExpectationList/>
         {/*<DevTools/>*/}
     </div>
-)
+);
 
 export default App

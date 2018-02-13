@@ -7,12 +7,12 @@ export default (function () {
     let connected = false;
 
     let disconnectSocket = function () {
-        connected = false
+        connected = false;
         if (socket != null) {
             socket.close()
         }
         socket = null
-    }
+    };
     let connectSocket = function (action, next) {
         if (socket != null) {
             socket.close()
@@ -23,33 +23,33 @@ export default (function () {
             next(webSocketMessageReceived(
                 JSON.parse(event.data)
             ))
-        }
+        };
         socket.onclose = () => {
             disconnectSocket();
-        }
+        };
         socket.onopen = () => {
-            connected = true
+            connected = true;
             if (action.message) {
                 socket.send(JSON.stringify(action.message))
             }
         }
-    }
+    };
     return store => next => action => {
         switch (action.type) {
 
             case CONNECT_SOCKET:
-                connectSocket(action, next)
-                break
+                connectSocket(action, next);
+                break;
             case DISCONNECT_SOCKET:
                 disconnectSocket();
-                break
+                break;
             case SEND_MESSAGE:
                 if (connected) {
                     socket.send(JSON.stringify(action.message))
                 } else {
                     connectSocket(action, next)
                 }
-                break
+                break;
             default:
                 return next(action)
         }

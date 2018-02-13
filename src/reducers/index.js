@@ -10,6 +10,6 @@ const rootReducer = combineReducers({
     ...createForms({
         requestMatcher: {},
     }),
-})
+});
 
 export default rootReducer

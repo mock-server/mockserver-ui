@@ -7,10 +7,10 @@ const LogMessage = ({logMessage}) => {
             <pre>{logMessage}</pre>
         </div>
     )
-}
+};
 
 LogMessage.propTypes = {
     logMessage: PropTypes.string.isRequired
-}
+};
 
 export default LogMessage

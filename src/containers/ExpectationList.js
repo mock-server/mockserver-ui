@@ -15,7 +15,7 @@ class ExpectationList extends Component {
             recordedRequests: PropTypes.array.isRequired,
             logMessages: PropTypes.array.isRequired
         }).isRequired
-    }
+    };
 
     render() {
         const {
@@ -25,9 +25,9 @@ class ExpectationList extends Component {
                 recordedRequests = [],
                 logMessages = []
             },
-        } = this.props
+        } = this.props;
 
-        let recordedExpectationsTitle = null
+        let recordedExpectationsTitle = null;
         if (recordedExpectations.length > 0) {
             recordedExpectationsTitle = <div className="header">Recorded Expectations</div>
         }
@@ -171,7 +171,7 @@ const mapStateToProps = (state) => {
             recordedRequests = [],
             logMessages = []
         }
-    } = state
+    } = state;
 
     return {
         requestMatcher,
@@ -182,6 +182,6 @@ const mapStateToProps = (state) => {
             logMessages
         }
     }
-}
+};
 
 export default connect(mapStateToProps, {})(ExpectationList)

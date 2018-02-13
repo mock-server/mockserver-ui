@@ -1,7 +1,7 @@
 import * as ActionTypes from "../actions";
 
 const errorMessage = (state = null, action) => {
-    const {type, error} = action
+    const {type, error} = action;
 
     if (type === ActionTypes.RESET_ERROR_MESSAGE) {
         return null
@@ -10,6 +10,6 @@ const errorMessage = (state = null, action) => {
     }
 
     return state
-}
+};
 
 export default errorMessage

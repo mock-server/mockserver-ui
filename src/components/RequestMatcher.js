@@ -7,13 +7,13 @@ import {connectSocket, disconnectSocket, requestMatcherUpdate, sendMessage} from
 import {connect} from "react-redux";
 
 const loadData = ({requestMatcher = {}, sendMessage}) => {
-    let requestFilter = {}
+    let requestFilter = {};
     if (requestMatcher.filter) {
-        Object.assign(requestFilter, requestMatcher)
+        Object.assign(requestFilter, requestMatcher);
         delete requestFilter.filter
     }
     sendMessage(requestFilter, "127.0.0.1", "1080")
-}
+};
 
 class RequestMatcher extends Component {
     static propTypes = {
@@ -22,7 +22,7 @@ class RequestMatcher extends Component {
         connectSocket: PropTypes.func.isRequired,
         sendMessage: PropTypes.func.isRequired,
         disconnectSocket: PropTypes.func.isRequired
-    }
+    };
 
     componentWillMount() {
         loadData(this.props)
@@ -105,12 +105,12 @@ class RequestMatcher extends Component {
 const mapStateToProps = (state) => {
     const {
         requestMatcher = {},
-    } = state
+    } = state;
 
     return {
         requestMatcher
     }
-}
+};
 
 export default connect(mapStateToProps, {
     requestMatcherUpdate,

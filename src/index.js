@@ -6,11 +6,11 @@ import configureStore from './store/configureStore'
 // import './css/prettify.css'
 // import './css/main.css'
 
-const store = configureStore()
+const store = configureStore();
 
 render(
     <Provider store={store}>
         <App/>
     </Provider>,
     document.getElementById('app')
-)
+);

@@ -14,7 +14,7 @@ const configureStore = preloadedState => {
             applyMiddleware(thunk, api, socket, createLogger()),
             DevTools.instrument()
         )
-    )
+    );
 
     if (module.hot) {
         // Enable Webpack hot module replacement for reducers
@@ -24,6 +24,6 @@ const configureStore = preloadedState => {
     }
 
     return store
-}
+};
 
 export default configureStore

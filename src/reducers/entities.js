@@ -11,6 +11,6 @@ const entities = (state = {activeExpectations: [], recordedExpectations: [], rec
     }
 
     return state
-}
+};
 
 export default entities
