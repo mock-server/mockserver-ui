@@ -1,19 +1,15 @@
-import {applyMiddleware, compose, createStore} from 'redux'
+import {applyMiddleware, createStore} from 'redux'
 import thunk from 'redux-thunk'
 import {createLogger} from 'redux-logger'
 import api from '../middleware/api'
 import socket from '../middleware/socket'
 import rootReducer from '../reducers'
-import DevTools from '../containers/DevTools'
 
 const configureStore = preloadedState => {
     const store = createStore(
         rootReducer,
         preloadedState,
-        compose(
-            applyMiddleware(thunk, api, socket, createLogger()),
-            DevTools.instrument()
-        )
+        applyMiddleware(thunk, api, socket, createLogger())
     );
 
     if (module.hot) {
