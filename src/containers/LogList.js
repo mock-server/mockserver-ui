@@ -11,7 +11,10 @@ const LogList = ({logMessages}) => {
             <div id="style-5" style={{
                 overflowY: "scroll",
                 maxHeight: "400px",
-                transform: "scaleX(-1)"
+                minHeight: "100px",
+                transform: "scaleX(-1)",
+                backgroundColor: "rgb(251, 251, 251)",
+                borderRadius: "5px"
             }}>
                 {logMessages.map((logMessage) => <LogMessage logMessage={logMessage} />)}
             </div>

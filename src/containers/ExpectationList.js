@@ -28,36 +28,22 @@ class ExpectationList extends Component {
             },
         } = this.props;
 
-        let recordedExpectationsTitle = null;
-        if (recordedExpectations.length > 0) {
-            recordedExpectationsTitle = <div className="header">Recorded Expectations</div>
-        }
-
         return (
             <div>
                 <div className="row" style={
                     {
-                        borderLeftStyle: "none",
-                        borderLeftWidth: "3px",
-                        borderTopStyle: "none",
-                        borderTopWidth: "3px",
-                        borderRightStyle: "none",
-                        borderRightWidth: "3px",
-                        backgroundColor: "rgb(250, 250, 250)",
-                        borderRadius: "5px"
+                        "borderStyle": "none",
+                        "borderWidth": "3px"
                     }
                 }>
                     <div style={
                         {
-                            width: "48%",
+                            width: "46%",
                             float: "left",
-                            borderRightStyle: "none",
-                            borderRightWidth: "3px",
                             padding: "2px 1%"
                         }
                     }>
-                        <div className="header">Recorded Requests</div>
-                        <JsonList jsonItems={recordedRequests}/>
+                        <JsonList jsonItems={recordedRequests} header={"Received Requests"}/>
                     </div>
                     <div style={
                         {
@@ -66,9 +52,16 @@ class ExpectationList extends Component {
                             padding: "2px 1%"
                         }
                     }>
-                        <div className="header">Active Expectations</div>
-                        <JsonList jsonItems={activeExpectations}/>
+                        <JsonList jsonItems={recordedExpectations} header={"Proxied Requests"}/>
                     </div>
+                </div>
+                <div className="row" style={
+                    {
+                        "borderStyle": "none",
+                        "borderWidth": "3px"
+                    }
+                }>
+                    <JsonList jsonItems={activeExpectations} header={"Active Expectations"}/>
                 </div>
                 <div className="row" style={
                     {
@@ -78,8 +71,6 @@ class ExpectationList extends Component {
                 }>
                     <LogList logMessages={logMessages}/>
                 </div>
-                {recordedExpectationsTitle}
-                <JsonList jsonItems={recordedExpectations}/>
             </div>
         )
     }
