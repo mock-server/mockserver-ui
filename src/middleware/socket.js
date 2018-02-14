@@ -1,6 +1,6 @@
 import {
     CONNECT_SOCKET, DISCONNECT_SOCKET, SEND_MESSAGE, webSocketMessageReceived
-} from '../actions/socket'
+} from '../actions'
 
 export default (function () {
     let socket = null;

@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import {Control, Form} from 'react-redux-form';
 import PropTypes from "prop-types";
-import {connectSocket, disconnectSocket, requestMatcherUpdate, sendMessage} from "../actions/socket";
+import {connectSocket, disconnectSocket, requestMatcherUpdate, sendMessage} from "../actions";
 import {connect} from "react-redux";
 
 const loadData = ({requestMatcher = {}, sendMessage}) => {

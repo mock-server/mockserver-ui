@@ -5,7 +5,10 @@
   "devDependencies": {
     "react-scripts": "^1.1.1",
     "redux-devtools": "^3.4.1",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "redux-mock-store": "1.5.1",
+    "expect": "22.3.0",
+    "fetch-mock": "6.0.0"
   },
   "dependencies": {
     "classnames": "^2.2.5",
