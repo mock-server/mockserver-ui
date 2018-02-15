@@ -112,9 +112,11 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {
+const mapDispatchToProps = {
     requestMatcherUpdate,
     connectSocket,
     sendMessage,
     disconnectSocket
-})(RequestMatcher)
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RequestMatcher);

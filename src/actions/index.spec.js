@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 import * as SocketActions from '../actions';
 import fetchMock from 'fetch-mock';
 import expect from 'expect'
-import {CONNECT_SOCKET, SEND_MESSAGE} from "./index";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -40,7 +39,7 @@ describe('async actions', () => {
         let contextPath = "";
 
         const expectedActions = [
-            {type: CONNECT_SOCKET, host, port}
+            {type: SocketActions.CONNECT_SOCKET, host, port}
         ];
         const store = mockStore({requestMatcher: {}});
 
@@ -58,12 +57,41 @@ describe('async actions', () => {
         let port = "666";
 
         const expectedActions = [
-            {type: SEND_MESSAGE, message, host, port}
+            {type: SocketActions.SEND_MESSAGE, message, host, port}
         ];
         const store = mockStore({requestMatcher: {}});
 
         // when
         store.dispatch(SocketActions.sendMessage(message, host, port));
+
+        // then
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    it('should create MESSAGE_RECEIVED', () => {
+        // given
+        let entities = {};
+
+        const expectedActions = {type: SocketActions.MESSAGE_RECEIVED, entities};
+
+        const store = mockStore({requestMatcher: {}});
+
+        // when
+        const action = SocketActions.webSocketMessageReceived(entities);
+
+        // then
+        expect(action).toEqual(expectedActions);
+    });
+
+    it('should create DISCONNECT_SOCKET', () => {
+        // given
+        const expectedActions = [
+            {type: SocketActions.DISCONNECT_SOCKET}
+        ];
+        const store = mockStore({requestMatcher: {}});
+
+        // when
+        store.dispatch(SocketActions.disconnectSocket());
 
         // then
         expect(store.getActions()).toEqual(expectedActions);
