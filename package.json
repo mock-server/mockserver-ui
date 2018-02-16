@@ -3,12 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "chai": "^4.1.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "expect": "22.3.0",
+    "fetch-mock": "6.0.0",
+    "jest": "^22.3.0",
+    "jsdom": "latest",
     "react-scripts": "^1.1.1",
+    "react-test-renderer": "16.2.0",
     "redux-devtools": "^3.4.1",
     "redux-logger": "^3.0.6",
     "redux-mock-store": "1.5.1",
-    "expect": "22.3.0",
-    "fetch-mock": "6.0.0"
+    "sinon": "^4.3.0"
   },
   "dependencies": {
     "classnames": "^2.2.5",

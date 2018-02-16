@@ -18,7 +18,7 @@ export default (function () {
             socket.close()
         }
 
-        socket = new WebSocket("ws://" + action.host + ":" + action.port + "/_mockserver_ui_websocket")
+        socket = new WebSocket("ws://" + action.host + ":" + action.port + "/_mockserver_ui_websocket");
         socket.onmessage = (event) => {
             next(webSocketMessageReceived(
                 JSON.parse(event.data)

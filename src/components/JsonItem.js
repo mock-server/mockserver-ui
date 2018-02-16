@@ -36,7 +36,7 @@ const JsonItem = ({jsonItem}) => {
 JsonItem.propTypes = {
     jsonItem: PropTypes.shape({
         key: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired
+        value: PropTypes.object.isRequired
     }).isRequired
 };
 
