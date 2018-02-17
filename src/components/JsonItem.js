@@ -9,6 +9,7 @@ export default class JsonItem extends Component {
 
     render() {
         const {
+            index = 0,
             jsonItem = {}
         } = this.props;
 
@@ -22,7 +23,7 @@ export default class JsonItem extends Component {
                         // marginRight: "3px"
                     }
                 }
-                name={null}
+                name={"" + index}
                 theme={"tomorrow"}
                 iconStyle={"triangle"}
                 indentWidth={4}

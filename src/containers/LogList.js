@@ -30,7 +30,7 @@ export default class LogList extends Component {
                     backgroundColor: "rgb(251, 251, 251)",
                     borderRadius: "5px"
                 }}>
-                    {logMessages.map((logMessage) => <LogMessage key={logMessage.key} logMessage={logMessage.value}/>)}
+                    {logMessages.map((logMessage, index) => <LogMessage index={logMessages.length - index} key={logMessage.key} logMessage={logMessage.value}/>)}
                 </div>
             </div>
         );

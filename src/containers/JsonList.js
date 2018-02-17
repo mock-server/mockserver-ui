@@ -30,7 +30,7 @@ export default class JsonList extends Component {
                     backgroundColor: "rgb(251, 251, 251)",
                     borderRadius: "5px"
                 }}>
-                    {jsonItems.map((jsonItem) => <JsonItem key={jsonItem.key} jsonItem={jsonItem.value}/>)}
+                    {jsonItems.map((jsonItem, index) => <JsonItem index={jsonItems.length - index} key={jsonItem.key} jsonItem={jsonItem.value}/>)}
                 </div>
             </div>
         );

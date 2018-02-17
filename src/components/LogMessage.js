@@ -8,6 +8,7 @@ export default class LogMessage extends Component {
 
     render() {
         const {
+            index = 0,
             logMessage = {}
         } = this.props;
         return (
@@ -24,7 +25,7 @@ export default class LogMessage extends Component {
                          backgroundColor: "rgb(29, 31, 33)",
                          color: "rgb(250, 250, 250)"
                      }
-                 }>{logMessage}</pre>
+                 }>{index + " - " + logMessage}</pre>
         )
     }
 };
