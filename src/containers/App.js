@@ -1,11 +1,11 @@
-import React from 'react'
-import RequestMatcher from "../components/RequestMatcher"
-import ExpectationList from '../containers/ExpectationList'
+import React from 'react';
+import RequestMatcher from "../components/RequestMatcher";
+import Grid from './Grid';
 
 const App = () => (
     <div>
         <RequestMatcher/>
-        <ExpectationList/>
+        <Grid/>
     </div>
 );
 

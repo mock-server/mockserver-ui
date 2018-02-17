@@ -1,29 +1,38 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import LogMessage from "../components/LogMessage"
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import LogMessage from "../components/LogMessage";
+import ListHeader from "../components/ListHeader";
 
-const LogList = ({logMessages}) => {
-    return (
-        <div style={{
-            padding: "2px 1%"
-        }}>
-            <div className="header">Log Messages</div>
-            <div id="style-5" style={{
-                overflowY: "scroll",
-                maxHeight: "400px",
-                minHeight: "100px",
-                transform: "scaleX(-1)",
-                backgroundColor: "rgb(251, 251, 251)",
-                borderRadius: "5px"
+export default class LogList extends Component {
+    static propTypes = {
+        logMessages: PropTypes.arrayOf(PropTypes.shape({
+            key: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired
+        })).isRequired,
+        header: PropTypes.string.isRequired
+    };
+
+    render() {
+        const {
+            logMessages = [],
+            header = ""
+        } = this.props;
+        return (
+            <div style={{
+                padding: "2px 0"
             }}>
-                {logMessages.map((logMessage) => <LogMessage logMessage={logMessage} />)}
+                <ListHeader text={header} />
+                <div style={{
+                    overflowY: "scroll",
+                    maxHeight: "400px",
+                    minHeight: "100px",
+                    // transform: "scaleX(-1)",
+                    backgroundColor: "rgb(251, 251, 251)",
+                    borderRadius: "5px"
+                }}>
+                    {logMessages.map((logMessage) => <LogMessage key={logMessage.key} logMessage={logMessage.value}/>)}
+                </div>
             </div>
-        </div>
-    )
-};
-
-LogList.propTypes = {
-    logMessages: PropTypes.array.isRequired
-};
-
-export default LogList
+        );
+    }
+}

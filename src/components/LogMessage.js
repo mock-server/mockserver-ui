@@ -1,31 +1,30 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
-const LogMessage = ({logMessage}) => {
-    return (
-        <pre className="log"
-             key={logMessage.key}
-             style={
-                 {
-                     padding: "5px",
-                     transform: "scaleX(-1)",
-                     marginTop: "0",
-                     marginRight: "5px",
-                     marginBottom: "5px",
-                     marginLeft: 0,
-                     borderRadius: "2px",
-                     backgroundColor: "rgb(29, 31, 33)",
-                     color: "rgb(250, 250, 250)"
-                 }
-             }>{logMessage.value}</pre>
-    )
+export default class LogMessage extends Component {
+    static propTypes = {
+        logMessage: PropTypes.string.isRequired
+    };
+
+    render() {
+        const {
+            logMessage = {}
+        } = this.props;
+        return (
+            <pre className="log"
+                 style={
+                     {
+                         padding: "5px",
+                         // transform: "scaleX(-1)",
+                         marginTop: "2px",
+                         marginRight: "0",
+                         marginBottom: "3px",
+                         marginLeft: 0,
+                         borderRadius: "2px",
+                         backgroundColor: "rgb(29, 31, 33)",
+                         color: "rgb(250, 250, 250)"
+                     }
+                 }>{logMessage}</pre>
+        )
+    }
 };
-
-LogMessage.propTypes = {
-    logMessage: PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired
-    }).isRequired
-};
-
-export default LogMessage

@@ -1,13 +1,11 @@
-/* eslint-disable no-undef */
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import LogList from "../containers/LogList";
+import JsonList from "../containers/JsonList";
+import './grid.css';
 
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import LogList from "../containers/LogList"
-import JsonList from "../containers/JsonList"
-import './scroll.css'
-
-class ExpectationList extends Component {
+class Grid extends Component {
     static propTypes = {
         requestMatcher: PropTypes.object.isRequired,
         entities: PropTypes.shape({
@@ -27,29 +25,32 @@ class ExpectationList extends Component {
                 logMessages = []
             },
         } = this.props;
-
         return (
-            <div>
+            <div style={{
+
+            }}>
                 <div className="row" style={
                     {
-                        "borderStyle": "none",
-                        "borderWidth": "3px"
+                        "borderStyle": "dashed",
+                        "borderWidth": "1px",
+                        margin: "15px 0",
+                        padding: "10px 15px"
                     }
                 }>
                     <div style={
                         {
-                            width: "46%",
+                            width: "49%",
                             float: "left",
-                            padding: "2px 1%"
+                            padding: "5px 0"
                         }
                     }>
                         <JsonList jsonItems={recordedRequests} header={"Received Requests"}/>
                     </div>
                     <div style={
                         {
-                            width: "46%",
+                            width: "49%",
                             float: "right",
-                            padding: "2px 1%"
+                            padding: "5px 0"
                         }
                     }>
                         <JsonList jsonItems={recordedExpectations} header={"Proxied Requests"}/>
@@ -57,22 +58,26 @@ class ExpectationList extends Component {
                 </div>
                 <div className="row" style={
                     {
-                        "borderStyle": "none",
-                        "borderWidth": "3px"
+                        "borderStyle": "dashed",
+                        "borderWidth": "1px",
+                        margin: "15px 0",
+                        padding: "10px 15px"
                     }
                 }>
                     <JsonList jsonItems={activeExpectations} header={"Active Expectations"}/>
                 </div>
                 <div className="row" style={
                     {
-                        "borderStyle": "none",
-                        "borderWidth": "3px"
+                        "borderStyle": "dashed",
+                        "borderWidth": "1px",
+                        margin: "15px 0",
+                        padding: "10px 15px"
                     }
                 }>
-                    <LogList logMessages={logMessages}/>
+                    <LogList logMessages={logMessages} header={"Log Messages"}/>
                 </div>
             </div>
-        )
+        );
     }
 }
 
@@ -98,4 +103,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {})(ExpectationList)
+export default connect(mapStateToProps, {})(Grid)
