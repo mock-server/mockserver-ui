@@ -21,16 +21,32 @@ export default class LogList extends Component {
             <div style={{
                 padding: "2px 0"
             }}>
-                <ListHeader text={header} />
+                <ListHeader text={header}/>
                 <div style={{
                     overflowY: "scroll",
                     maxHeight: "400px",
                     minHeight: "100px",
-                    // transform: "scaleX(-1)",
-                    backgroundColor: "rgb(251, 251, 251)",
-                    borderRadius: "5px"
+                    borderRadius: "2px",
+                    backgroundColor: "rgb(29, 31, 33)",
+                    color: "rgb(250, 250, 250)"
                 }}>
-                    {logMessages.map((logMessage, index) => <LogMessage index={logMessages.length - index} key={logMessage.key} logMessage={logMessage.value}/>)}
+                    <div style={
+                        {
+                            borderSpacing: "5px",
+                            padding: "5px",
+                            marginTop: "2px",
+                            marginRight: "0",
+                            marginBottom: "3px",
+                            marginLeft: 0,
+                            borderRadius: "2px",
+                            backgroundColor: "rgb(29, 31, 33)",
+                            color: "rgb(250, 250, 250)"
+                        }
+                    }>
+                        {logMessages.map((logMessage, index) => <LogMessage index={logMessages.length - index}
+                                                                            key={logMessage.key}
+                                                                            logMessage={JSON.parse(logMessage.value)}/>)}
+                    </div>
                 </div>
             </div>
         );

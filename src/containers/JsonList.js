@@ -15,7 +15,8 @@ export default class JsonList extends Component {
     render() {
         const {
             jsonItems = [],
-            header = ""
+            header = "",
+            reverseIndex = true
         } = this.props;
         return (
             <div style={{
@@ -26,11 +27,10 @@ export default class JsonList extends Component {
                     overflowY: "scroll",
                     maxHeight: "400px",
                     minHeight: "100px",
-                    // transform: "scaleX(-1)",
                     backgroundColor: "rgb(251, 251, 251)",
                     borderRadius: "5px"
                 }}>
-                    {jsonItems.map((jsonItem, index) => <JsonItem index={jsonItems.length - index} key={jsonItem.key} jsonItem={jsonItem.value}/>)}
+                    {jsonItems.map((jsonItem, index) => <JsonItem index={reverseIndex ? jsonItems.length - index : index + 1} key={jsonItem.key} jsonItem={jsonItem.value}/>)}
                 </div>
             </div>
         );

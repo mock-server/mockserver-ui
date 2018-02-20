@@ -37,7 +37,7 @@ class Grid extends Component {
                         padding: "10px 7px"
                     }
                 }>
-                    <JsonList jsonItems={activeExpectations} header={"Active Expectations (in the order they are applied)"}/>
+                    <JsonList jsonItems={activeExpectations} reverseIndex={false} header={"Active Expectations (in the order they are applied)"}/>
                 </div>
                 <div className="row" style={
                     {

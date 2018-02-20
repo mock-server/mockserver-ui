@@ -5,13 +5,13 @@ import {connectSocket, disconnectSocket, requestMatcherUpdate, sendMessage} from
 import {connect} from "react-redux";
 import './form.css';
 
-const loadData = ({requestMatcher = {}, sendMessage}) => {
+const loadData = ({queryString = {host: "127.0.0.1", port: "1080"}, requestMatcher = {}, sendMessage}) => {
     let requestFilter = {};
     if (requestMatcher.filter) {
         Object.assign(requestFilter, requestMatcher);
         delete requestFilter.filter
     }
-    sendMessage(requestFilter, "127.0.0.1", "1080")
+    sendMessage(requestFilter, queryString.host, queryString.port)
 };
 
 class RequestMatcher extends Component {
@@ -38,6 +38,9 @@ class RequestMatcher extends Component {
     }
 
     render() {
+        const {
+            requestMatcher = {}
+        } = this.props;
         return (
             <Form model="requestMatcher" style={{
                 borderBottomStyle: "dashed",
@@ -57,8 +60,8 @@ class RequestMatcher extends Component {
                     display: "inline",
                     paddingRight: "10px",
                 }}>
-                    <label className={!this.props.requestMatcher.filter ? "disabled" : "enabled"} htmlFor=".method">Method:</label>
-                    <Control.select disabled={!this.props.requestMatcher.filter} model=".method" id=".method">
+                    <label className={!requestMatcher.filter ? "disabled" : "enabled"} htmlFor=".method">Method:</label>
+                    <Control.select disabled={!requestMatcher.filter} model=".method" id=".method">
                         <option value=""></option>
                         <option value="CONNECT">CONNECT</option>
                         <option value="DELETE">DELETE</option>
@@ -75,8 +78,8 @@ class RequestMatcher extends Component {
                 <div style={{
                     display: "inline"
                 }}>
-                    <label className={!this.props.requestMatcher.filter ? "disabled" : "enabled"} htmlFor=".path">Path:</label>
-                    <Control.text disabled={!this.props.requestMatcher.filter} model=".path" id=".path"/>
+                    <label className={!requestMatcher.filter ? "disabled" : "enabled"} htmlFor=".path">Path:</label>
+                    <Control.text disabled={!requestMatcher.filter} model=".path" id=".path"/>
                 </div>
 
                 {/* queryStringParameters */}

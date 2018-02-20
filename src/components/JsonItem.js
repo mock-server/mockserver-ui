@@ -1,33 +1,30 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import ReactJson from 'react-json-view';
 
 export default class JsonItem extends Component {
-    static propTypes = {
-        jsonItem: PropTypes.object.isRequired
-    };
-
     render() {
         const {
             index = 0,
-            jsonItem = {}
+            collapsed = 3,
+            jsonItem = null,
+            display = "block",
+            textStyle = {}
         } = this.props;
 
-        return (
-            <ReactJson
+        if (typeof jsonItem === "object") {
+            return (<ReactJson
                 src={jsonItem}
                 style={
                     {
                         padding: "10px",
-                        // transform: "scaleX(-1)",
-                        // marginRight: "3px"
+                        display: (display === "table-cell" ? "table-cell" : "block")
                     }
                 }
-                name={"" + index}
+                name={index != null ? "" + index : index}
                 theme={"tomorrow"}
                 iconStyle={"triangle"}
                 indentWidth={4}
-                collapsed={2}
+                collapsed={collapsed != null ? collapsed : 3}
                 collapseStringsAfterLength={250}
                 shouldCollapse={(field) => {
                     return false
@@ -38,7 +35,13 @@ export default class JsonItem extends Component {
                 onEdit={false}
                 onAdd={false}
                 onDelete={false}
-            />
-        );
+            />);
+        } else if (typeof jsonItem === "string" || typeof jsonItem === "number") {
+            return (
+                <pre style={textStyle}>{jsonItem}</pre>
+            );
+        } else {
+            return (<div/>);
+        }
     }
 };
