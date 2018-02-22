@@ -5,7 +5,7 @@ export default class JsonItem extends Component {
     render() {
         const {
             index = 0,
-            collapsed = 3,
+            collapsed = 0,
             jsonItem = null,
             display = "block",
             textStyle = {}
@@ -24,12 +24,12 @@ export default class JsonItem extends Component {
                 theme={"tomorrow"}
                 iconStyle={"triangle"}
                 indentWidth={4}
-                collapsed={collapsed != null ? collapsed : 3}
+                collapsed={collapsed != null ? collapsed : 0}
                 collapseStringsAfterLength={250}
                 shouldCollapse={(field) => {
                     return false
                 }}
-                enableClipboard={false}
+                enableClipboard={true}
                 displayObjectSize={false}
                 displayDataTypes={false}
                 onEdit={false}

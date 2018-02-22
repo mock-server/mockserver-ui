@@ -31,20 +31,30 @@ class Grid extends Component {
             }}>
                 <div className="row" style={
                     {
-                        "borderStyle": "dashed",
-                        "borderWidth": "1px",
-                        margin: "15px 0",
-                        padding: "10px 7px"
+                        borderStyle: "dashed",
+                        borderWidth: "1px",
+                        margin: "15px 10px",
+                        padding: "17px 17px"
+                    }
+                }>
+                    <LogList logMessages={logMessages} header={"Log Messages (most recent at the top)"}/>
+                </div>
+                <div className="row" style={
+                    {
+                        borderStyle: "dashed",
+                        borderWidth: "1px",
+                        margin: "15px 10px",
+                        padding: "17px 17px"
                     }
                 }>
                     <JsonList jsonItems={activeExpectations} reverseIndex={false} header={"Active Expectations (in the order they are applied)"}/>
                 </div>
                 <div className="row" style={
                     {
-                        "borderStyle": "dashed",
-                        "borderWidth": "1px",
-                        margin: "15px 0",
-                        padding: "10px 7px"
+                        borderStyle: "dashed",
+                        borderWidth: "1px",
+                        margin: "15px 10px",
+                        padding: "17px 17px"
                     }
                 }>
                     <div style={
@@ -53,8 +63,8 @@ class Grid extends Component {
                             float: "left",
                             padding: "0",
                             paddingRight: "1%",
-                            "borderRightStyle": "dashed",
-                            "borderRightWidth": "1px",
+                            borderRightStyle: "dashed",
+                            borderRightWidth: "1px",
                         }
                     }>
                         <JsonList jsonItems={recordedRequests} header={"Received Requests (most recent at the top)"}/>
@@ -67,16 +77,6 @@ class Grid extends Component {
                     }>
                         <JsonList jsonItems={recordedExpectations} header={"Proxied Requests (most recent at the top)"}/>
                     </div>
-                </div>
-                <div className="row" style={
-                    {
-                        "borderStyle": "dashed",
-                        "borderWidth": "1px",
-                        margin: "15px 0",
-                        padding: "10px 7px"
-                    }
-                }>
-                    <LogList logMessages={logMessages} header={"Log Messages (most recent at the top)"}/>
                 </div>
             </div>
         );
