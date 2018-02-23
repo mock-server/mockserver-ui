@@ -9,20 +9,17 @@ export default class LogMessage extends Component {
     };
     cellStyle = {
         padding: "5px",
-        marginTop: "2px",
-        marginRight: "0",
-        marginBottom: "3px",
-        marginLeft: 0,
+        margin: "2px 0px 3px",
         borderRadius: "2px",
         display: "table-cell",
         verticalAlign: "top",
-        whiteSpace: "nowrap",
-        font: "1em 'Averia Sans Libre', 'Gloria Hallelujah', 'Indie Flower', Helvetica, Arial, sans-serif"
+        // whiteSpace: "nowrap",
+        fontFamily: "Roboto,sans-serif"
     };
 
     messageFormatter(message, messageArguments) {
         let formattedMessage = [];
-        const messageParts = message.split("{}");
+        const messageParts = (message || "").split("{}");
         for (let messagePartIndex = 0; messagePartIndex < messageParts.length; messagePartIndex++) {
             formattedMessage.push(<div style={this.cellStyle}
                                        key={"msg" + messagePartIndex}>{messageParts[messagePartIndex]}</div>);
@@ -44,7 +41,17 @@ export default class LogMessage extends Component {
                                          }}>{reason}</span>
                         }
                     );
-                    formattedMessage.push(<div style={this.cellStyle} key={"arg" + messagePartIndex}>{reason}</div>);
+                    formattedMessage.push(
+                        <div style={this.cellStyle} key={"arg" + messagePartIndex}>
+                            <details>
+                                <summary style={{
+                                    color: "rgb(222, 147, 95)",
+                                    fontSize: "30px",
+                                    lineHeight: "15px"
+                                }}>...</summary>
+                                {reason}
+                            </details>
+                        </div>);
                 } else {
                     let jsonItem = messageArguments[messagePartIndex];
                     if (typeof jsonItem === "string" && messageParts[messagePartIndex].indexOf("Generated output:") !== -1) {
@@ -59,16 +66,11 @@ export default class LogMessage extends Component {
                                                     collapsed="0"
                                                     display={"table-cell"}
                                                     textStyle={{
-                                                        padding: "5px",
-                                                        marginTop: "2px",
-                                                        marginRight: "0",
-                                                        marginBottom: "3px",
-                                                        marginLeft: 0,
-                                                        borderRadius: "2px",
+                                                        fontFamily: "Roboto, sans-serif",
+                                                        backgroundColor: "rgb(29, 31, 33)",
+                                                        paddingTop: "6px",
                                                         display: "table-cell",
-                                                        verticalAlign: "top",
-                                                        whiteSpace: "nowrap",
-                                                        font: "1em 'Averia Sans Libre', 'Gloria Hallelujah', 'Indie Flower', Helvetica, Arial, sans-serif"
+                                                        verticalAlign: "top"
                                                     }}
                                                     jsonItem={jsonItem}/>);
                 }
@@ -78,7 +80,14 @@ export default class LogMessage extends Component {
     };
 
     selectStyle(type) {
-        let style = {};
+        let style = {
+            borderTopColor: "rgb(189, 189, 189)",
+            borderTopStyle: "dotted",
+            borderTopWidth: "2px",
+            whiteSpace: "nowrap",
+            overflow: "auto",
+            display: "table-row"
+        };
         switch (type) {
             case "TRACE":
                 style.color = "rgb(255, 255, 255)";
@@ -114,13 +123,15 @@ export default class LogMessage extends Component {
                 style.color = "rgb(255, 255, 255)";
                 break;
             case "SERVER_CONFIGURATION":
-                style.color = "rgb(255, 255, 255)";
+                style.color = "rgb(201, 125, 240)";
                 break;
             case "WARN":
-                style.color = "rgb(255, 105, 0)";
+                style.color = "rgb(255, 255, 255)";
+                style.whiteSpace = "pre-wrap";
                 break;
             case "EXCEPTION":
-                style.color = "rgb(255, 0, 0)";
+                style.color = "rgb(255, 255, 255)";
+                style.whiteSpace = "pre-wrap";
                 break;
             default:
                 style.color = "rgb(201, 125, 240)"; // spare
@@ -133,8 +144,11 @@ export default class LogMessage extends Component {
             logMessage = {}
         } = this.props;
         let formattedMessage = this.messageFormatter(logMessage.messageFormat, logMessage.arguments);
-        return (<div style={this.selectStyle(logMessage.type)}>
-            <div style={this.cellStyle}>{logMessage.timeStamp}</div>
+        const today = (new Date()).toISOString().split('T')[0];
+        return (<div style={
+            this.selectStyle(logMessage.type)
+        }>
+            <div style={Object.assign({whiteSpace: "nowrap"}, this.cellStyle)}>{logMessage.timeStamp.replace(today, "").trim()}</div>
             {formattedMessage.map(div => div)}
         </div>)
     }

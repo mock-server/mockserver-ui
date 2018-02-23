@@ -36,7 +36,25 @@ export default class JsonItem extends Component {
                 onAdd={false}
                 onDelete={false}
             />);
-        } else if (typeof jsonItem === "string" || typeof jsonItem === "number") {
+        } else if (typeof jsonItem === "string" && jsonItem.length > 20) {
+            return (
+                <details style={textStyle}>
+                    <summary style={{
+                        color: "rgb(222, 147, 95)",
+                        fontSize: "30px",
+                        lineHeight: "15px",
+                        display: "table-cell",
+                        paddingLeft: "11px"
+                    }}>...
+                    </summary>
+                    <pre style={textStyle}>{jsonItem}</pre>
+                </details>
+            );
+        } else if (typeof jsonItem === "string") {
+            return (
+                <pre style={textStyle}>{jsonItem}</pre>
+            );
+        } else if (typeof jsonItem === "number") {
             return (
                 <pre style={textStyle}>{jsonItem}</pre>
             );
