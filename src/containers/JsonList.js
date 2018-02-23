@@ -16,16 +16,20 @@ export default class JsonList extends Component {
         let path = "";
         let method = "";
         let httpRequest = jsonItem.value;
-        if (httpRequest.httpRequest) {
-            httpRequest = httpRequest.httpRequest;
+        if (httpRequest) {
+            if (httpRequest.httpRequest) {
+                httpRequest = httpRequest.httpRequest;
+            }
+            if (httpRequest.path) {
+                path = httpRequest.path;
+            }
+            if (httpRequest.method) {
+                method = httpRequest.method;
+            }
+            return method + " " + path;
+        } else {
+            return "";
         }
-        if (httpRequest.path) {
-            path = httpRequest.path
-        }
-        if (httpRequest.method) {
-            method = httpRequest.method
-        }
-        return method + " " + path
     }
 
     render() {

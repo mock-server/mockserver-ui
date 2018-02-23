@@ -99,16 +99,23 @@ export default class LogMessage extends Component {
                 style.color = "rgb(222, 147, 95)";
                 break;
             case "CREATED_EXPECTATION":
-                style.color = "rgb(178, 148, 187)";
+                // style.color = "rgb(178, 148, 187)";
+                style.color = "rgb(216,199,166)";
                 break;
             case "EXPECTATION_RESPONSE":
-                style.color = "rgb(152, 208, 255)";
+                // style.color = "rgb(152, 208, 255)";
+                // style.color = "rgb(197, 229, 255)";
+                style.color = "rgb(161,208,231)";
                 break;
             case "EXPECTATION_MATCHED":
-                style.color = "rgb(85, 205, 189)";
+                // style.color = "rgb(85, 205, 189)";
+                // style.color = "rgb(160, 199, 194)";
+                style.color = "rgb(117,185,186)";
                 break;
             case "EXPECTATION_NOT_MATCHED":
-                style.color = "rgb(234, 67, 106)";
+                // style.color = "rgb(234, 67, 106)";
+                // style.color = "rgb(244, 200, 210)";
+                style.color = "rgb(204,165,163)";
                 break;
             case "VERIFICATION":
                 style.color = "rgb(178, 148, 187)";
@@ -130,7 +137,8 @@ export default class LogMessage extends Component {
                 style.whiteSpace = "pre-wrap";
                 break;
             case "EXCEPTION":
-                style.color = "rgb(255, 255, 255)";
+                // style.color = "rgb(255, 255, 255)";
+                style.color = "rgb(255,133,133)";
                 style.whiteSpace = "pre-wrap";
                 break;
             default:

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import LogList from "../containers/LogList";
 import JsonList from "../containers/JsonList";
+import {transform} from 'lodash/object'
 import './grid.css';
 
 class Grid extends Component {
@@ -26,9 +27,7 @@ class Grid extends Component {
             },
         } = this.props;
         return (
-            <div style={{
-
-            }}>
+            <div style={{}}>
                 <div className="row" style={
                     {
                         borderStyle: "dashed",
@@ -47,7 +46,8 @@ class Grid extends Component {
                         padding: "17px 17px"
                     }
                 }>
-                    <JsonList jsonItems={activeExpectations} reverseIndex={false} header={"Active Expectations (in the order they are applied)"}/>
+                    <JsonList jsonItems={activeExpectations} reverseIndex={false}
+                              header={"Active Expectations (in the order they are applied)"}/>
                 </div>
                 <div className="row" style={
                     {
@@ -75,13 +75,28 @@ class Grid extends Component {
                             float: "right"
                         }
                     }>
-                        <JsonList jsonItems={recordedExpectations} header={"Proxied Requests (most recent at the top)"}/>
+                        <JsonList jsonItems={transform(recordedExpectations, function (result, expectation) {
+                            result.push({
+                                key: expectation.key,
+                                value: {
+                                    httpRequest: expectation.value.httpRequest,
+                                    httpResponse: expectation.value.httpResponse,
+                                },
+                            });
+                        }, [])} header={"Proxied Requests (most recent at the top)"}/>
                     </div>
                 </div>
             </div>
         );
     }
 }
+
+/*
+{
+  "httpRequest": { }
+    "httpResponse": {}
+}
+ */
 
 const mapStateToProps = (state) => {
     const {
