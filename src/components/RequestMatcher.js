@@ -5,17 +5,19 @@ import {connectSocket, disconnectSocket, requestMatcherUpdate, sendMessage} from
 import {connect} from "react-redux";
 import './form.css';
 
-const loadData = ({queryString = {host: "127.0.0.1", port: "1080"}, requestMatcher = {}, sendMessage}) => {
+const loadData = ({host = "127.0.0.1", port = "1080", requestMatcher = {}, sendMessage}) => {
     let requestFilter = {};
     if (requestMatcher.filter) {
         Object.assign(requestFilter, requestMatcher);
         delete requestFilter.filter
     }
-    sendMessage(requestFilter, queryString.host, queryString.port)
+    sendMessage(requestFilter, host, port)
 };
 
 class RequestMatcher extends Component {
     static propTypes = {
+        host: PropTypes.string.isRequired,
+        port: PropTypes.string.isRequired,
         requestMatcher: PropTypes.object.isRequired,
         requestMatcherUpdate: PropTypes.func.isRequired,
         connectSocket: PropTypes.func.isRequired,

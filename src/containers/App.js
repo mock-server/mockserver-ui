@@ -1,15 +1,10 @@
 import React from 'react';
 import RequestMatcher from "../components/RequestMatcher";
 import Grid from './Grid';
-import {parse} from 'query-string'
 
-let queryString = parse(window.location.href.split('?').pop());
-if (!queryString.host || !queryString.port) {
-    queryString = undefined;
-}
 const App = () => (
     <div>
-        <RequestMatcher queryString={queryString}/>
+        <RequestMatcher host={window.location.hostname} port={window.location.port ? window.location.port : window.location.protocol === "https:" ? 443 : 80}/>
         <Grid/>
     </div>
 );
