@@ -91,13 +91,6 @@ class Grid extends Component {
     }
 }
 
-/*
-{
-  "httpRequest": { }
-    "httpResponse": {}
-}
- */
-
 const mapStateToProps = (state) => {
     const {
         requestMatcher = {},

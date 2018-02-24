@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import {Control, Form} from 'react-redux-form';
 import PropTypes from "prop-types";
 import {connectSocket, disconnectSocket, requestMatcherUpdate, sendMessage} from "../actions";

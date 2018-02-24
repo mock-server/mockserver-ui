@@ -8,12 +8,11 @@ export default class LogMessage extends Component {
         logMessage: PropTypes.object.isRequired
     };
     cellStyle = {
-        padding: "5px",
+        paddingTop: "5px",
         margin: "2px 0px 3px",
         borderRadius: "2px",
         display: "table-cell",
         verticalAlign: "top",
-        // whiteSpace: "nowrap",
         fontFamily: "Roboto,sans-serif"
     };
 
@@ -41,8 +40,10 @@ export default class LogMessage extends Component {
                                          }}>{reason}</span>
                         }
                     );
+                    let style = Object.assign({}, this.cellStyle);
+                    style.paddingTop = "0px";
                     formattedMessage.push(
-                        <div style={this.cellStyle} key={"arg" + messagePartIndex}>
+                        <div style={style} key={"arg" + messagePartIndex}>
                             <details>
                                 <summary style={{
                                     color: "rgb(222, 147, 95)",
@@ -54,7 +55,7 @@ export default class LogMessage extends Component {
                         </div>);
                 } else {
                     let jsonItem = messageArguments[messagePartIndex];
-                    if (typeof jsonItem === "string" && messageParts[messagePartIndex].indexOf("Generated output:") !== -1) {
+                    if (typeof jsonItem === "string" && messageParts[messagePartIndex].indexOf("generated output:") !== -1) {
                         try {
                             jsonItem = JSON.parse(jsonItem);
                         } catch (e) {
@@ -63,6 +64,7 @@ export default class LogMessage extends Component {
                     }
                     formattedMessage.push(<JsonItem key={"arg" + messagePartIndex}
                                                     index={null}
+                                                    displayIndex={messageParts[messagePartIndex].indexOf("for action:") === -1}
                                                     collapsed="0"
                                                     display={"table-cell"}
                                                     textStyle={{
@@ -81,9 +83,6 @@ export default class LogMessage extends Component {
 
     selectStyle(type) {
         let style = {
-            borderTopColor: "rgb(189, 189, 189)",
-            borderTopStyle: "dotted",
-            borderTopWidth: "2px",
             whiteSpace: "nowrap",
             overflow: "auto",
             display: "table-row"

@@ -1,12 +1,34 @@
-import React from 'react';
+import React, {Component} from 'react';
 import RequestMatcher from "../components/RequestMatcher";
 import Grid from './Grid';
+import {parse} from 'query-string';
 
-const App = () => (
-    <div>
-        <RequestMatcher host={window.location.hostname} port={window.location.port ? window.location.port : window.location.protocol === "https:" ? 443 : 80}/>
-        <Grid/>
-    </div>
-);
+export default class App extends Component {
+    host() {
+        if (window.location.search && parse(window.location.search).host) {
+            return parse(window.location.search).host;
+        } else if (window.location.hostname) {
+            return window.location.hostname;
+        }
+        return window.location.hostname;
+    }
 
-export default App
+    port() {
+        if (window.location.search && parse(window.location.search).port) {
+            return parse(window.location.search).port;
+        } else if (window.location.port) {
+            return window.location.port;
+        } else if (window.location.protocol === "https:") {
+            return 443;
+        } else {
+            return 80;
+        }
+    }
+
+    render() {
+        return (<div>
+            <RequestMatcher host={this.host()} port={this.port()}/>
+            <Grid/>
+        </div>)
+    }
+}

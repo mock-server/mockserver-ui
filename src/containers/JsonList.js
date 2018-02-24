@@ -12,26 +12,6 @@ export default class JsonList extends Component {
         header: PropTypes.string.isRequired
     };
 
-    calculateIndex(counter, jsonItem) {
-        let path = "";
-        let method = "";
-        let httpRequest = jsonItem.value;
-        if (httpRequest) {
-            if (httpRequest.httpRequest) {
-                httpRequest = httpRequest.httpRequest;
-            }
-            if (httpRequest.path) {
-                path = httpRequest.path;
-            }
-            if (httpRequest.method) {
-                method = httpRequest.method;
-            }
-            return method + " " + path;
-        } else {
-            return "";
-        }
-    }
-
     render() {
         const {
             jsonItems = [],
@@ -48,10 +28,11 @@ export default class JsonList extends Component {
                     maxHeight: "400px",
                     minHeight: "100px",
                     borderRadius: "5px",
+                    padding: "10px",
                     backgroundColor: "rgb(29, 31, 33)",
                     color: "rgb(250, 250, 250)",
                 }}>
-                    {jsonItems.map((jsonItem, index) => <JsonItem index={this.calculateIndex((reverseIndex ? jsonItems.length - index : index + 1), jsonItem)} key={jsonItem.key} jsonItem={jsonItem.value}/>)}
+                    {jsonItems.map((jsonItem, index) => <JsonItem index={reverseIndex ? jsonItems.length - index : index + 1} key={jsonItem.key} jsonItem={jsonItem.value}/>)}
                 </div>
             </div>
         );

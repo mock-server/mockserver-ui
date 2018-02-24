@@ -7,7 +7,7 @@ export default class LogList extends Component {
     static propTypes = {
         logMessages: PropTypes.arrayOf(PropTypes.shape({
             key: PropTypes.string.isRequired,
-            value: PropTypes.string.isRequired
+            value: PropTypes.object.isRequired
         })).isRequired,
         header: PropTypes.string.isRequired
     };
@@ -45,7 +45,7 @@ export default class LogList extends Component {
                     }>
                         {logMessages.map((logMessage, index) => <LogMessage index={logMessages.length - index}
                                                                             key={logMessage.key}
-                                                                            logMessage={JSON.parse(logMessage.value)}/>)}
+                                                                            logMessage={logMessage.value}/>)}
                     </div>
                 </div>
             </div>
