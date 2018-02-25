@@ -9,6 +9,9 @@ export default class LogMessage extends Component {
     };
     cellStyle = {
         paddingTop: "5px",
+        paddingLeft: "4px",
+        paddingRight: "4px",
+        paddingBottom: "3px",
         margin: "2px 0px 3px",
         borderRadius: "2px",
         display: "table-cell",
@@ -16,12 +19,16 @@ export default class LogMessage extends Component {
         fontFamily: "Roboto,sans-serif"
     };
 
-    messageFormatter(message, messageArguments) {
+    messageFormatter(message, messageArguments, paddingWidth) {
         let formattedMessage = [];
         const messageParts = (message || "").split("{}");
+        let messageDiv = 0;
         for (let messagePartIndex = 0; messagePartIndex < messageParts.length; messagePartIndex++) {
-            formattedMessage.push(<div style={this.cellStyle}
-                                       key={"msg" + messagePartIndex}>{messageParts[messagePartIndex]}</div>);
+            if (messageParts[messagePartIndex].length > 0) {
+                formattedMessage.push(<div style={this.cellStyle}
+                                           key={"msg" + messagePartIndex}>{messageParts[messagePartIndex]}</div>);
+                messageDiv++;
+            }
             if (messageArguments && messageArguments.length > 0 && messageArguments.length > messagePartIndex) {
                 if (messageParts[messagePartIndex].indexOf("because:") !== -1) {
                     let reason = messageArguments[messagePartIndex].split(",").map(
@@ -49,7 +56,8 @@ export default class LogMessage extends Component {
                                     color: "rgb(222, 147, 95)",
                                     fontSize: "30px",
                                     lineHeight: "15px"
-                                }}>...</summary>
+                                }}>...
+                                </summary>
                                 {reason}
                             </details>
                         </div>);
@@ -74,19 +82,31 @@ export default class LogMessage extends Component {
                                                         display: "table-cell",
                                                         verticalAlign: "top"
                                                     }}
+                                                    enableClipboard={false}
                                                     jsonItem={jsonItem}/>);
                 }
+                messageDiv++;
             }
+        }
+        for (let paddingIndex = messageDiv; paddingIndex < paddingWidth; paddingIndex++) {
+            formattedMessage.push(<div key={"pad" + paddingIndex} style={this.cellStyle}></div>);
         }
         return formattedMessage;
     };
 
-    selectStyle(type) {
+    selectStyle(type, noBorderTop) {
         let style = {
+            borderTopStyle: "dashed",
+            borderTopWidth: "1px",
+            borderTopColor: "#cfcccc57",
             whiteSpace: "nowrap",
             overflow: "auto",
-            display: "table-row"
+            display: "table-row",
+            width: "100%"
         };
+        if (noBorderTop) {
+            style.borderTopWidth = "0";
+        }
         switch (type) {
             case "TRACE":
                 style.color = "rgb(255, 255, 255)";
@@ -98,22 +118,15 @@ export default class LogMessage extends Component {
                 style.color = "rgb(222, 147, 95)";
                 break;
             case "CREATED_EXPECTATION":
-                // style.color = "rgb(178, 148, 187)";
                 style.color = "rgb(216,199,166)";
                 break;
             case "EXPECTATION_RESPONSE":
-                // style.color = "rgb(152, 208, 255)";
-                // style.color = "rgb(197, 229, 255)";
                 style.color = "rgb(161,208,231)";
                 break;
             case "EXPECTATION_MATCHED":
-                // style.color = "rgb(85, 205, 189)";
-                // style.color = "rgb(160, 199, 194)";
                 style.color = "rgb(117,185,186)";
                 break;
             case "EXPECTATION_NOT_MATCHED":
-                // style.color = "rgb(234, 67, 106)";
-                // style.color = "rgb(244, 200, 210)";
                 style.color = "rgb(204,165,163)";
                 break;
             case "VERIFICATION":
@@ -136,7 +149,6 @@ export default class LogMessage extends Component {
                 style.whiteSpace = "pre-wrap";
                 break;
             case "EXCEPTION":
-                // style.color = "rgb(255, 255, 255)";
                 style.color = "rgb(255,133,133)";
                 style.whiteSpace = "pre-wrap";
                 break;
@@ -148,14 +160,16 @@ export default class LogMessage extends Component {
 
     render() {
         const {
-            logMessage = {}
+            logMessage = {},
+            logMessageMaxWidth = 0,
+            index
         } = this.props;
-        let formattedMessage = this.messageFormatter(logMessage.messageFormat, logMessage.arguments);
+        let formattedMessage = this.messageFormatter(logMessage.messageFormat, logMessage.arguments, logMessageMaxWidth);
         const today = (new Date()).toISOString().split('T')[0];
-        return (<div style={
-            this.selectStyle(logMessage.type)
-        }>
-            <div style={Object.assign({whiteSpace: "nowrap"}, this.cellStyle)}>{logMessage.timeStamp.replace(today, "").trim()}</div>
+        const noBorderTop = formattedMessage[0].props.children <= 1 || index === 0;
+        return (<div style={this.selectStyle(logMessage.type, noBorderTop)}>
+            <div
+                style={Object.assign({whiteSpace: "nowrap"}, this.cellStyle)}>{logMessage.timeStamp.replace(today, "").trim()}</div>
             {formattedMessage.map(div => div)}
         </div>)
     }

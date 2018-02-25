@@ -13,7 +13,8 @@ class Grid extends Component {
             activeExpectations: PropTypes.array.isRequired,
             recordedExpectations: PropTypes.array.isRequired,
             recordedRequests: PropTypes.array.isRequired,
-            logMessages: PropTypes.array.isRequired
+            logMessages: PropTypes.array.isRequired,
+            logMessageMaxWidth: PropTypes.number.isRequired
         }).isRequired
     };
 
@@ -23,7 +24,8 @@ class Grid extends Component {
                 activeExpectations = [],
                 recordedExpectations = [],
                 recordedRequests = [],
-                logMessages = []
+                logMessages = [],
+                logMessageMaxWidth = 0
             },
         } = this.props;
         return (
@@ -36,7 +38,7 @@ class Grid extends Component {
                         padding: "17px 17px"
                     }
                 }>
-                    <LogList logMessages={logMessages} header={"Log Messages (most recent at the top)"}/>
+                    <LogList logMessages={logMessages} header={"Log Messages (most recent at the top)"} logMessageMaxWidth={logMessageMaxWidth}/>
                 </div>
                 <div className="row" style={
                     {
@@ -98,7 +100,8 @@ const mapStateToProps = (state) => {
             activeExpectations = [],
             recordedExpectations = [],
             recordedRequests = [],
-            logMessages = []
+            logMessages = [],
+            logMessageMaxWidth = 0
         }
     } = state;
 
@@ -108,7 +111,8 @@ const mapStateToProps = (state) => {
             activeExpectations,
             recordedExpectations,
             recordedRequests,
-            logMessages
+            logMessages,
+            logMessageMaxWidth
         }
     }
 };

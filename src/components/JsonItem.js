@@ -52,6 +52,7 @@ export default class JsonItem extends Component {
             collapsed = 0,
             jsonItem = null,
             display = "block",
+            enableClipboard = true,
             textStyle = {}
         } = this.props;
 
@@ -60,11 +61,18 @@ export default class JsonItem extends Component {
                 src={jsonItem}
                 style={
                     {
-                        paddingTop: "5px",
+                        whiteSpace: "nowrap",
+                        paddingTop: "6px",
                         display: (display === "table-cell" ? "table-cell" : "block")
                     }
                 }
-                name={displayIndex ? this.calculateIndex(index != null ? "" + index : index, jsonItem) : null}
+                name={displayIndex ? <div style={{
+                    display: "table-cell",
+                    maxWidth: "109px",
+                    minWidth: "109px",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden"
+                }}>{this.calculateIndex(index != null ? "" + index : index, jsonItem)}</div> : null}
                 theme={"tomorrow"}
                 iconStyle={"triangle"}
                 indentWidth={4}
@@ -73,7 +81,7 @@ export default class JsonItem extends Component {
                 shouldCollapse={(field) => {
                     return false
                 }}
-                enableClipboard={true}
+                enableClipboard={enableClipboard}
                 displayObjectSize={false}
                 displayDataTypes={false}
                 onEdit={false}
