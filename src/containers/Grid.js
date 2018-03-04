@@ -4,7 +4,12 @@ import {connect} from 'react-redux';
 import LogList from "../containers/LogList";
 import JsonList from "../containers/JsonList";
 import {transform} from 'lodash/object'
+import {disconnectSocket, sendMessage} from "../actions";
 import './grid.css';
+
+const loadData = ({host = "127.0.0.1", port = "1080", requestFilter = {}, sendMessage}) => {
+    sendMessage(requestFilter, host, port)
+};
 
 class Grid extends Component {
     static propTypes = {
@@ -13,9 +18,24 @@ class Grid extends Component {
             recordedExpectations: PropTypes.array.isRequired,
             recordedRequests: PropTypes.array.isRequired,
             logMessages: PropTypes.array.isRequired,
-            logMessageMaxWidth: PropTypes.number.isRequired
+            logMessageMaxWidth: PropTypes.number.isRequired,
+            requestFilter: PropTypes.object.isRequired
         }).isRequired
     };
+
+    componentWillMount() {
+        loadData(this.props)
+    }
+
+    componentWillUnmount() {
+        this.props.disconnectSocket()
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.requestFilter !== this.props.requestFilter) {
+            loadData(nextProps)
+        }
+    }
 
     render() {
         const {
@@ -105,6 +125,10 @@ const mapStateToProps = (state) => {
         logMessageMaxWidth = 0
     } = state.entities;
 
+    const {
+        requestFilter
+    } = state;
+
     return {
         entities: {
             activeExpectations,
@@ -112,8 +136,12 @@ const mapStateToProps = (state) => {
             recordedRequests,
             logMessages,
             logMessageMaxWidth
-        }
+        },
+        requestFilter
     }
 };
 
-export default connect(mapStateToProps, {})(Grid)
+export default connect(mapStateToProps, {
+    disconnectSocket,
+    sendMessage
+})(Grid)

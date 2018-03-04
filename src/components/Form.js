@@ -1,67 +1,70 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Field, FieldArray, getFormValues, isDirty, isInvalid, isPristine, isValid, reduxForm} from 'redux-form';
-import {AutoComplete as MUIAutoComplete, FloatingActionButton} from 'material-ui';
+import {Field, FieldArray, formValueSelector, reduxForm} from 'redux-form';
+import {AutoComplete as MUIAutoComplete, IconButton, FloatingActionButton} from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import PropTypes from "prop-types";
 import {AutoComplete, TextField, Toggle,} from 'redux-form-material-ui';
-import {connectSocket, disconnectSocket, sendMessage} from "../actions";
-
-const loadData = ({host = "127.0.0.1", port = "1080", formValues = {}, sendMessage}) => {
-    let requestFilter = {};
-    if (formValues.filter) {
-        requestFilter = {
-            method: formValues.method,
-            path: formValues.path,
-            keepAlive: formValues.keepAlive ? true : undefined,
-            secure: formValues.secure ? true : undefined,
-            headers: [],
-            queryStringParameters: [],
-            cookies: [],
-        };
-        for (let cookie of formValues.cookies) {
-            if (cookie.name && cookie.value) {
-                requestFilter.cookies.push(cookie);
-            }
-        }
-        console.log(requestFilter);
-    }
-    sendMessage(requestFilter, host, port)
-};
 
 class Form extends Component {
     static propTypes = {
         host: PropTypes.string.isRequired,
         port: PropTypes.string.isRequired,
-        // requestFilter: PropTypes.object.isRequired,
         connectSocket: PropTypes.func.isRequired,
         sendMessage: PropTypes.func.isRequired,
         disconnectSocket: PropTypes.func.isRequired
     };
 
-    componentWillMount() {
-        loadData(this.props)
-    }
+    renderValues = (disabled) => ({fields}) => {
+        return (
+            <div style={{
+                width: "50%",
+                padding: "5px",
+                paddingRight: "10px",
+                display: "inline-block",
+                verticalAlign: "bottom",
+            }}>
+                {fields.map((field, index) => <div key={index} style={{
+                    display: "inline-block",
+                    width: "70%",
+                }}>
 
-    componentWillUnmount() {
-        this.props.disconnectSocket()
-    }
+                    <Field
+                        disabled={disabled}
+                        fullWidth={true}
+                        style={{
+                            width: "80%",
+                        }}
+                        name={field}
+                        component={TextField}
+                        hintText="Value"
+                        onChange={(e) => {console.log(e)}}
+                        floatingLabelText="Value"
+                    />
+                    {index > 0 ?
+                        <IconButton style={{
+                            display: "inline-block",
+                            verticalAlign: "bottom",
+                            minWidth: "28px",
+                            width: "28px",
+                        }} disabled={disabled} onClick={() => fields.remove(index)}>
+                            <ContentRemove/>
+                        </IconButton>
+                        : ""}
 
-    componentWillReceiveProps(nextProps) {
-        // if (nextProps.requestFilter !== this.props.requestFilter) {
-        loadData(nextProps)
-        // }
-    }
-
-    focus() {
-        this.refs.path // the Field
-            .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
-            .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
-            .focus(); // on TextField
-    }
-
-    renderHeaders = (disabled) => ({fields}) => {
+                </div>)}
+                <IconButton style={{
+                    display: "inline-block",
+                    verticalAlign: "bottom",
+                    minWidth: "28px",
+                    width: "28px",
+                }} disabled={disabled} onClick={() => fields.push("")}>
+                    <ContentAdd/>
+                </IconButton>
+            </div>)
+    };
+    renderKeysToMultiValues = (disabled, title) => ({fields}) => {
         return (<div style={{
             width: "100%",
             display: "inline-block",
@@ -76,7 +79,7 @@ class Form extends Component {
                 verticalAlign: "top",
                 textAlign: "right",
                 fontFamily: "Roboto, sans-serif",
-            }}>Headers:
+            }}>{title}
             </div>
             <div style={{
                 display: "inline-block",
@@ -87,10 +90,10 @@ class Form extends Component {
                     width: "90%",
                 }}>
                     <div style={{
-                        width: "40%",
+                        width: "35%",
                         padding: "5px",
                         display: "inline-block",
-                        verticalAlign: "bottom",
+                        verticalAlign: "top",
                     }}>
                         <Field
                             disabled={disabled}
@@ -104,22 +107,7 @@ class Form extends Component {
                             dataSource={[]}
                         />
                     </div>
-                    <div style={{
-                        width: "40%",
-                        padding: "5px",
-                        paddingRight: "10px",
-                        display: "inline-block",
-                        verticalAlign: "bottom",
-                    }}>
-                        <Field
-                            disabled={disabled}
-                            fullWidth={true}
-                            name={`${field}.value`}
-                            component={TextField}
-                            hintText="Value"
-                            floatingLabelText="Value"
-                        />
-                    </div>
+                    <FieldArray name={`${field}.values`} component={this.renderValues(disabled)}/>
                     {index > 0 ? <FloatingActionButton mini={true} style={{
                         display: "inline-block",
                         verticalAlign: "bottom"
@@ -130,13 +118,15 @@ class Form extends Component {
                 <FloatingActionButton mini={true} style={{
                     display: "inline-block",
                     verticalAlign: "bottom",
-                }} disabled={disabled} onClick={() => fields.push({})}>
+                }} disabled={disabled} onClick={() => fields.push({
+                    values: [""]
+                })}>
                     <ContentAdd/>
                 </FloatingActionButton>
             </div>
         </div>)
     };
-    renderCookies = (disabled) => ({fields}) => {
+    renderKeysToValues = (disabled, title) => ({fields}) => {
         return (<div style={{
             width: "100%",
             display: "inline-block",
@@ -151,7 +141,7 @@ class Form extends Component {
                 verticalAlign: "top",
                 textAlign: "right",
                 fontFamily: "Roboto, sans-serif",
-            }}>Cookies:
+            }}>{title}
             </div>
             <div style={{
                 display: "inline-block",
@@ -162,10 +152,10 @@ class Form extends Component {
                     width: "90%",
                 }}>
                     <div style={{
-                        width: "40%",
+                        width: "35%",
                         padding: "5px",
                         display: "inline-block",
-                        verticalAlign: "bottom",
+                        verticalAlign: "top",
                     }}>
                         <Field
                             disabled={disabled}
@@ -180,82 +170,7 @@ class Form extends Component {
                         />
                     </div>
                     <div style={{
-                        width: "40%",
-                        padding: "5px",
-                        paddingRight: "10px",
-                        display: "inline-block",
-                        verticalAlign: "bottom",
-                    }}>
-                        <Field
-                            disabled={disabled}
-                            fullWidth={true}
-                            name={`${field}.value`}
-                            component={TextField}
-                            hintText="Value"
-                            floatingLabelText="Value"
-                        />
-                    </div>
-                    {index > 0 ? <FloatingActionButton mini={true} style={{
-                        display: "inline-block",
-                        verticalAlign: "bottom"
-                    }} disabled={disabled} onClick={() => fields.remove(index)}>
-                        <ContentRemove/>
-                    </FloatingActionButton> : ""}
-                </div>)}
-                <FloatingActionButton mini={true} style={{
-                    display: "inline-block",
-                    verticalAlign: "bottom",
-                }} disabled={disabled} onClick={() => fields.push({})}>
-                    <ContentAdd/>
-                </FloatingActionButton>
-            </div>
-        </div>)
-    };
-    renderQueryParameters = (disabled) => ({fields}) => {
-        return (<div style={{
-            width: "100%",
-            display: "inline-block",
-            paddingRight: "10px",
-        }}>
-            <div style={{
-                color: disabled ? "#9c9c9c" : "rgb(0, 188, 212)",
-                width: "20%",
-                paddingTop: "45px",
-                paddingRight: "15px",
-                display: "inline-block",
-                verticalAlign: "top",
-                textAlign: "right",
-                fontFamily: "Roboto, sans-serif",
-            }}>Query Parameters:
-            </div>
-            <div style={{
-                display: "inline-block",
-                width: "75%",
-            }}>
-                {fields.map((field, index) => <div key={index} style={{
-                    display: "inline-block",
-                    width: "90%",
-                }}>
-                    <div style={{
-                        width: "40%",
-                        padding: "5px",
-                        display: "inline-block",
-                        verticalAlign: "bottom",
-                    }}>
-                        <Field
-                            disabled={disabled}
-                            name={`${field}.name`}
-                            component={AutoComplete}
-                            hintText="Name"
-                            floatingLabelText="Name"
-                            fullWidth={true}
-                            openOnFocus
-                            filter={MUIAutoComplete.fuzzyFilter}
-                            dataSource={[]}
-                        />
-                    </div>
-                    <div style={{
-                        width: "40%",
+                        width: "45%",
                         padding: "5px",
                         paddingRight: "10px",
                         display: "inline-block",
@@ -288,7 +203,7 @@ class Form extends Component {
     };
 
     render() {
-        const disabled = !(this.props.formValues && this.props.formValues.filter);
+        const disabled = !this.props.enabled;
         return (
             <form style={{
                 borderBottomStyle: "dashed",
@@ -312,10 +227,11 @@ class Form extends Component {
                             display: "inline-block",
                         }}>
                             <Field
-                                name="filter"
+                                name="enabled"
                                 component={Toggle}
                                 label="Filter"
                                 labelPosition="left"
+                                ref="enabled"
                             />
                         </div>
                     </div>
@@ -361,7 +277,6 @@ class Form extends Component {
                                         fullWidth={true}
                                         hintText="Path"
                                         floatingLabelText="Path"
-                                        ref="path"
                                     />
                                 </div>
                             </div>
@@ -403,9 +318,9 @@ class Form extends Component {
                             verticalAlign: "bottom",
                         }}>
                             <div>
-                                <FieldArray name={`headers`} component={this.renderHeaders(disabled)}/>
-                                <FieldArray name={`cookies`} component={this.renderCookies(disabled)}/>
-                                <FieldArray name={`queryStringParameters`} component={this.renderQueryParameters(disabled)}/>
+                                <FieldArray name={`headers`} component={this.renderKeysToMultiValues(disabled, "Headers:")}/>
+                                <FieldArray name={`cookies`} component={this.renderKeysToValues(disabled, "Cookies:")}/>
+                                <FieldArray name={`queryStringParameters`} component={this.renderKeysToMultiValues(disabled, "Query Parameters:")}/>
                             </div>
                         </div>
                     </div>
@@ -416,28 +331,23 @@ class Form extends Component {
 }
 
 const formName = 'requestFilter';
+const selector = formValueSelector(formName);
+
+Form = connect(  (state, props) => ({
+    enabled: !!selector(state, 'enabled')
+}), {})(Form);
+
 Form = reduxForm({
     form: formName,
     initialValues: {
-        filter: false,
-        headers: [{}],
-        queryStringParameters: [{}],
+        headers: [{
+            values: [""]
+        }],
+        queryStringParameters: [{
+            values: [""]
+        }],
         cookies: [{}],
     },
 })(Form);
-
-const mapDispatchToProps = {
-    connectSocket,
-    sendMessage,
-    disconnectSocket
-};
-
-Form = connect(state => ({
-    formValues: getFormValues(formName)(state),
-    dirty: isDirty(formName)(state),
-    pristine: isPristine(formName)(state),
-    valid: isValid(formName)(state),
-    invalid: isInvalid(formName)(state)
-}), mapDispatchToProps)(Form);
 
 export default Form;
