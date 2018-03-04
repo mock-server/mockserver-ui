@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactJson from 'react-json-view';
 
 export default class JsonItem extends Component {
-    calculateIndex(counter, jsonItem) {
+    static calculateIndex(counter, jsonItem) {
         let httpObject = jsonItem;
         let index = null;
         if (httpObject) {
@@ -59,25 +59,22 @@ export default class JsonItem extends Component {
         if (typeof jsonItem === "object") {
             return (<ReactJson
                 src={jsonItem}
-                style={
-                    {
-                        whiteSpace: "nowrap",
-                        paddingTop: "6px",
-                        display: (display === "table-cell" ? "table-cell" : "block")
-                    }
-                }
+                style={{
+                    whiteSpace: "nowrap",
+                    paddingTop: "6px",
+                    display: (display === "table-cell" ? "table-cell" : "block")
+                }}
                 name={displayIndex ? <div style={{
                     display: "table-cell",
-                    maxWidth: "109px",
-                    minWidth: "109px",
+                    maxWidth: "200px",
+                    minWidth: "115px",
                     textOverflow: "ellipsis",
                     overflow: "hidden"
-                }}>{this.calculateIndex(index != null ? "" + index : index, jsonItem)}</div> : null}
+                }}>{JsonItem.calculateIndex(index != null ? "" + index : index, jsonItem)}</div> : null}
                 theme={"tomorrow"}
                 iconStyle={"triangle"}
                 indentWidth={4}
                 collapsed={collapsed != null ? collapsed : 0}
-                collapseStringsAfterLength={250}
                 shouldCollapse={(field) => {
                     return false
                 }}
@@ -95,11 +92,10 @@ export default class JsonItem extends Component {
                         color: "rgb(222, 147, 95)",
                         fontSize: "30px",
                         lineHeight: "15px",
-                        display: "table-cell",
-                        paddingLeft: "11px"
+                        display: "table-cell"
                     }}>...
                     </summary>
-                    <pre style={textStyle}>{jsonItem}</pre>
+                    <pre>{jsonItem}</pre>
                 </details>
             );
         } else if (typeof jsonItem === "string") {

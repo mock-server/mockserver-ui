@@ -29,7 +29,7 @@ export default (function () {
         };
         socket.onopen = () => {
             connected = true;
-            if (action.message) {
+            if (socket && action.message && socket.readyState === 1) {
                 socket.send(JSON.stringify(action.message))
             }
         }

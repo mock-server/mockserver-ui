@@ -13,10 +13,7 @@ export default class ListHeader extends Component {
         return (
             <div style={{
                 font: "1.25em 'Averia Sans Libre', 'Gloria Hallelujah', 'Indie Flower', Helvetica, Arial, sans-serif",
-                marginTop: "0",
-                marginRight: "0",
-                marginBottom: "3px",
-                marginLeft: "2px"
+                margin: "0px 0px 3px 2px"
             }}>{text}</div>
         )
     }

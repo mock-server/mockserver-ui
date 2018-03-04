@@ -8,7 +8,6 @@ import './grid.css';
 
 class Grid extends Component {
     static propTypes = {
-        requestMatcher: PropTypes.object.isRequired,
         entities: PropTypes.shape({
             activeExpectations: PropTypes.array.isRequired,
             recordedExpectations: PropTypes.array.isRequired,
@@ -38,7 +37,9 @@ class Grid extends Component {
                         padding: "17px 17px"
                     }
                 }>
-                    <LogList logMessages={logMessages} header={"Log Messages (most recent at the top)"} logMessageMaxWidth={logMessageMaxWidth}/>
+                    <LogList items={logMessages}
+                             header={"Log Messages (most recent at the top)"}
+                             logMessageMaxWidth={logMessageMaxWidth}/>
                 </div>
                 <div className="row" style={
                     {
@@ -48,8 +49,9 @@ class Grid extends Component {
                         padding: "17px 17px"
                     }
                 }>
-                    <JsonList jsonItems={activeExpectations} reverseIndex={false}
-                              header={"Active Expectations (in the order they are applied)"}/>
+                    <JsonList items={activeExpectations}
+                              header={"Active Expectations (in the order they are applied)"}
+                              reverseIndex={false}/>
                 </div>
                 <div className="row" style={
                     {
@@ -69,7 +71,8 @@ class Grid extends Component {
                             borderRightWidth: "1px",
                         }
                     }>
-                        <JsonList jsonItems={recordedRequests} header={"Received Requests (most recent at the top)"}/>
+                        <JsonList items={recordedRequests}
+                                  header={"Received Requests (most recent at the top)"}/>
                     </div>
                     <div style={
                         {
@@ -77,7 +80,7 @@ class Grid extends Component {
                             float: "right"
                         }
                     }>
-                        <JsonList jsonItems={transform(recordedExpectations, function (result, expectation) {
+                        <JsonList items={transform(recordedExpectations, function (result, expectation) {
                             result.push({
                                 key: expectation.key,
                                 value: {
@@ -95,18 +98,14 @@ class Grid extends Component {
 
 const mapStateToProps = (state) => {
     const {
-        requestMatcher = {},
-        entities: {
-            activeExpectations = [],
-            recordedExpectations = [],
-            recordedRequests = [],
-            logMessages = [],
-            logMessageMaxWidth = 0
-        }
-    } = state;
+        activeExpectations = [],
+        recordedExpectations = [],
+        recordedRequests = [],
+        logMessages = [],
+        logMessageMaxWidth = 0
+    } = state.entities;
 
     return {
-        requestMatcher,
         entities: {
             activeExpectations,
             recordedExpectations,

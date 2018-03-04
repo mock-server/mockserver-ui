@@ -1,14 +1,3 @@
-export const REQUEST_MATCHER_UPDATE = 'REQUEST_MATCHER_UPDATE';
-
-const requestMatcherChange = (requestMatcher) => ({
-    type: REQUEST_MATCHER_UPDATE,
-    requestMatcher: requestMatcher
-});
-
-export const requestMatcherUpdate = (requestMatcher) => (dispatch) => {
-    return dispatch(requestMatcherChange(requestMatcher));
-};
-
 export const CONNECT_SOCKET = 'CONNECT_SOCKET';
 
 const connectWebSocket = (host, port) => ({

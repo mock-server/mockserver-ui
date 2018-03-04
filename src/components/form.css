@@ -1,10 +1,15 @@
-label {
+label, .label {
     font: 1em 'Averia Sans Libre', 'Gloria Hallelujah', 'Indie Flower', Helvetica, Arial, sans-serif;
     padding: 0 1%;
 }
 
-label.disabled {
+label.disabled, .label.disabled {
     font: 1em 'Averia Sans Libre', 'Gloria Hallelujah', 'Indie Flower', Helvetica, Arial, sans-serif;
     color: #9c9c9c;
     padding: 0 1%;
+}
+
+span.object-key:first-of-type span:first-of-type,
+span.object-key:first-of-type span:last-of-type {
+    display: none;
 }

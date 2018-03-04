@@ -1,17 +1,3 @@
-/*div::-webkit-scrollbar*/
-/*{*/
-    /*width: 5px;*/
-    /*padding: 2px;*/
-    /*margin: 2px;*/
-/*}*/
-
-/*div::-webkit-scrollbar-thumb*/
-/*{*/
-    /*border-radius: 1px;*/
-    /*!*background-color: rgb(178, 148, 187);*!*/
-    /*background-color: rgb(129, 162, 190);*/
-/*}*/
-
 .row:after {
     content: "";
     display: table;

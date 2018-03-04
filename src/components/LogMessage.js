@@ -19,13 +19,13 @@ export default class LogMessage extends Component {
         fontFamily: "Roboto,sans-serif"
     };
 
-    messageFormatter(message, messageArguments, paddingWidth) {
+    static messageFormatter(message, messageArguments, cellStyle, paddingWidth) {
         let formattedMessage = [];
         const messageParts = (message || "").split("{}");
         let messageDiv = 0;
         for (let messagePartIndex = 0; messagePartIndex < messageParts.length; messagePartIndex++) {
             if (messageParts[messagePartIndex].length > 0) {
-                formattedMessage.push(<div style={this.cellStyle}
+                formattedMessage.push(<div style={cellStyle}
                                            key={"msg" + messagePartIndex}>{messageParts[messagePartIndex]}</div>);
                 messageDiv++;
             }
@@ -47,7 +47,7 @@ export default class LogMessage extends Component {
                                          }}>{reason}</span>
                         }
                     );
-                    let style = Object.assign({}, this.cellStyle);
+                    let style = Object.assign({}, cellStyle);
                     style.paddingTop = "0px";
                     formattedMessage.push(
                         <div style={style} key={"arg" + messagePartIndex}>
@@ -78,7 +78,6 @@ export default class LogMessage extends Component {
                                                     textStyle={{
                                                         fontFamily: "Roboto, sans-serif",
                                                         backgroundColor: "rgb(29, 31, 33)",
-                                                        paddingTop: "6px",
                                                         display: "table-cell",
                                                         verticalAlign: "top"
                                                     }}
@@ -89,12 +88,12 @@ export default class LogMessage extends Component {
             }
         }
         for (let paddingIndex = messageDiv; paddingIndex < paddingWidth; paddingIndex++) {
-            formattedMessage.push(<div key={"pad" + paddingIndex} style={this.cellStyle}></div>);
+            formattedMessage.push(<div key={"pad" + paddingIndex} style={cellStyle}> </div>);
         }
         return formattedMessage;
     };
 
-    selectStyle(type, noBorderTop) {
+    static selectStyle(type, noBorderTop) {
         let style = {
             borderTopStyle: "dashed",
             borderTopWidth: "1px",
@@ -164,12 +163,11 @@ export default class LogMessage extends Component {
             logMessageMaxWidth = 0,
             index
         } = this.props;
-        let formattedMessage = this.messageFormatter(logMessage.messageFormat, logMessage.arguments, logMessageMaxWidth);
-        const today = (new Date()).toISOString().split('T')[0];
+        const formattedMessage = LogMessage.messageFormatter(logMessage.messageFormat, logMessage.arguments, this.cellStyle, logMessageMaxWidth);
         const noBorderTop = formattedMessage[0].props.children <= 1 || index === 0;
-        return (<div style={this.selectStyle(logMessage.type, noBorderTop)}>
-            <div
-                style={Object.assign({whiteSpace: "nowrap"}, this.cellStyle)}>{logMessage.timeStamp.replace(today, "").trim()}</div>
+        const timestamp = logMessage.timeStamp.replace((new Date()).toISOString().split('T')[0], "").trim();
+        return (<div style={LogMessage.selectStyle(logMessage.type, noBorderTop)}>
+            <div style={Object.assign({whiteSpace: "nowrap"}, this.cellStyle)}>{timestamp}</div>
             {formattedMessage.map(div => div)}
         </div>)
     }

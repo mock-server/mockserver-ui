@@ -5,19 +5,19 @@ import ListHeader from "../components/ListHeader";
 
 export default class LogList extends Component {
     static propTypes = {
-        logMessages: PropTypes.arrayOf(PropTypes.shape({
+        header: PropTypes.string.isRequired,
+        items: PropTypes.arrayOf(PropTypes.shape({
             key: PropTypes.string.isRequired,
             value: PropTypes.object.isRequired
         })).isRequired,
         logMessageMaxWidth: PropTypes.number.isRequired,
-        header: PropTypes.string.isRequired
     };
 
     render() {
         const {
-            logMessages = [],
-            logMessageMaxWidth = 0,
             header = "",
+            items = [],
+            logMessageMaxWidth = 0,
         } = this.props;
         return (
             <div style={{
@@ -28,30 +28,23 @@ export default class LogList extends Component {
                     overflowY: "scroll",
                     maxHeight: "400px",
                     minHeight: "100px",
-                    borderRadius: "2px",
+                    borderRadius: "5px",
+                    margin: "2px 0px 3px",
+                    padding: "5px",
                     backgroundColor: "rgb(29, 31, 33)",
                     color: "rgb(250, 250, 250)",
                 }}>
                     <div style={
                         {
-                            borderSpacing: "5px",
-                            padding: "5px",
-                            marginTop: "2px",
-                            marginRight: "0",
-                            marginBottom: "3px",
-                            marginLeft: 0,
-                            borderRadius: "2px",
-                            backgroundColor: "rgb(29, 31, 33)",
-                            color: "rgb(250, 250, 250)",
                             borderCollapse: "collapse",
                             display: "table",
                             minWidth: "100%"
                         }
                     }>
-                        {logMessages.map((logMessage, index) => <LogMessage index={index}
-                                                                            key={logMessage.key}
-                                                                            logMessage={logMessage.value}
-                                                                            logMessageMaxWidth={logMessageMaxWidth}/>)}
+                        {items.map((item, index) => <LogMessage index={index}
+                                                                      key={item.key}
+                                                                      logMessage={item.value}
+                                                                      logMessageMaxWidth={logMessageMaxWidth}/>)}
 
                     </div>
                 </div>

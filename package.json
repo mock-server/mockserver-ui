@@ -24,6 +24,7 @@
     "humps": "^2.0.1",
     "jest-cli": "^22.3.0",
     "lodash": "^4.17.5",
+    "material-ui": "^0.20.0",
     "normalizr": "^3.2.4",
     "prop-types": "^15.6.0",
     "query-string": "^5.1.0",
@@ -36,6 +37,8 @@
     "react-router-dom": "^4.2.2",
     "react-virtual-list": "^2.2.4",
     "redux": "^3.7.2",
+    "redux-form": "^7.3.0",
+    "redux-form-material-ui": "^4.3.3",
     "redux-thunk": "^2.2.0"
   },
   "scripts": {
