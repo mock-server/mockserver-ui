@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, FieldArray, formValueSelector, reduxForm} from 'redux-form';
-import {AutoComplete as MUIAutoComplete, IconButton, FloatingActionButton} from 'material-ui';
+import {AutoComplete as MUIAutoComplete, FloatingActionButton, IconButton} from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import PropTypes from "prop-types";
@@ -11,12 +11,9 @@ class Form extends Component {
     static propTypes = {
         host: PropTypes.string.isRequired,
         port: PropTypes.string.isRequired,
-        connectSocket: PropTypes.func.isRequired,
-        sendMessage: PropTypes.func.isRequired,
-        disconnectSocket: PropTypes.func.isRequired
     };
 
-    renderValues = (disabled) => ({fields}) => {
+    renderValues = ({fields, disabled}) => {
         return (
             <div style={{
                 width: "50%",
@@ -39,7 +36,9 @@ class Form extends Component {
                         name={field}
                         component={TextField}
                         hintText="Value"
-                        onChange={(e) => {console.log(e)}}
+                        onChange={(e) => {
+                            console.log(e)
+                        }}
                         floatingLabelText="Value"
                     />
                     {index > 0 ?
@@ -64,7 +63,7 @@ class Form extends Component {
                 </IconButton>
             </div>)
     };
-    renderKeysToMultiValues = (disabled, title) => ({fields}) => {
+    renderKeysToMultiValues = ({fields, disabled, title}) => {
         return (<div style={{
             width: "100%",
             display: "inline-block",
@@ -107,7 +106,7 @@ class Form extends Component {
                             dataSource={[]}
                         />
                     </div>
-                    <FieldArray name={`${field}.values`} component={this.renderValues(disabled)}/>
+                    <FieldArray name={`${field}.values`} component={this.renderValues} disabled={disabled}/>
                     {index > 0 ? <FloatingActionButton mini={true} style={{
                         display: "inline-block",
                         verticalAlign: "bottom"
@@ -126,7 +125,7 @@ class Form extends Component {
             </div>
         </div>)
     };
-    renderKeysToValues = (disabled, title) => ({fields}) => {
+    renderKeysToValues = ({fields, disabled, title}) => {
         return (<div style={{
             width: "100%",
             display: "inline-block",
@@ -205,7 +204,7 @@ class Form extends Component {
     render() {
         const disabled = !this.props.enabled;
         return (
-            <form style={{
+            <div style={{
                 borderBottomStyle: "dashed",
                 borderBottomWidth: "1px",
                 paddingBottom: "10px",
@@ -318,14 +317,17 @@ class Form extends Component {
                             verticalAlign: "bottom",
                         }}>
                             <div>
-                                <FieldArray name={`headers`} component={this.renderKeysToMultiValues(disabled, "Headers:")}/>
-                                <FieldArray name={`cookies`} component={this.renderKeysToValues(disabled, "Cookies:")}/>
-                                <FieldArray name={`queryStringParameters`} component={this.renderKeysToMultiValues(disabled, "Query Parameters:")}/>
+                                <FieldArray name={`headers`} component={this.renderKeysToMultiValues}
+                                            disabled={disabled} title={"Headers:"}/>
+                                <FieldArray name={`cookies`} component={this.renderKeysToValues} disabled={disabled}
+                                            title={"Cookies:"}/>
+                                <FieldArray name={`queryStringParameters`} component={this.renderKeysToMultiValues}
+                                            disabled={disabled} title={"Query Parameters:"}/>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         );
     }
 }
@@ -333,7 +335,7 @@ class Form extends Component {
 const formName = 'requestFilter';
 const selector = formValueSelector(formName);
 
-Form = connect(  (state, props) => ({
+Form = connect((state, props) => ({
     enabled: !!selector(state, 'enabled')
 }), {})(Form);
 
@@ -348,6 +350,7 @@ Form = reduxForm({
         }],
         cookies: [{}],
     },
+    destroyOnUnmount: false
 })(Form);
 
 export default Form;

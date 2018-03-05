@@ -19,8 +19,8 @@ class Grid extends Component {
             recordedRequests: PropTypes.array.isRequired,
             logMessages: PropTypes.array.isRequired,
             logMessageMaxWidth: PropTypes.number.isRequired,
-            requestFilter: PropTypes.object.isRequired
-        }).isRequired
+        }).isRequired,
+        requestFilter: PropTypes.object.isRequired,
     };
 
     componentWillMount() {
@@ -126,7 +126,7 @@ const mapStateToProps = (state) => {
     } = state.entities;
 
     const {
-        requestFilter
+        requestFilter = {}
     } = state;
 
     return {

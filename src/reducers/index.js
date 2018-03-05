@@ -4,9 +4,9 @@ import entities from './entities'
 import requestFilter from "./requestFilter";
 
 const rootReducer = combineReducers({
+    requestFilter,
     entities,
     form,
-    requestFilter
 });
 
 export default rootReducer
