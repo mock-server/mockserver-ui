@@ -1,9 +1,20 @@
+export const FILTER_UPDATED = 'FILTER_UPDATED';
+
+const filterUpdated = () => ({
+    type: FILTER_UPDATED
+});
+
+export const dispatchFilterUpdated = (message, host, port) => (dispatch) => {
+    return dispatch(filterUpdated(message, host, port));
+};
+
 export const CONNECT_SOCKET = 'CONNECT_SOCKET';
 
-const connectWebSocket = (host, port) => ({
+const connectWebSocket = (host, port, contextPath) => ({
     type: CONNECT_SOCKET,
     host: host,
-    port: port
+    port: port,
+    contextPath: contextPath
 });
 
 export const connectSocket = (host, port, contextPath) => (dispatch) => {

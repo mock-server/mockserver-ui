@@ -6,12 +6,87 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import PropTypes from "prop-types";
 import {AutoComplete, TextField, Toggle,} from 'redux-form-material-ui';
+import {disconnectSocket, sendMessage} from "../actions";
+
+let filterNullsMultiValue = function (rawItems) {
+    let items = undefined;
+    for (let rawItem of rawItems) {
+        let valueSet = false;
+        for (let value of rawItem.values) {
+            if (value) {
+                valueSet = true;
+            }
+        }
+        if (rawItem.name && valueSet) {
+            if (!items) {
+                items = [];
+            }
+            items.push(rawItem);
+        }
+    }
+    return items;
+};
+let filterNullsSingleValue = function (rawItems) {
+    let items = undefined;
+    for (let rawItem of rawItems) {
+        if (rawItem.name && rawItem.value) {
+            if (!items) {
+                items = [];
+            }
+            items.push(rawItem);
+        }
+    }
+    return items;
+};
+const loadData = ({host = "127.0.0.1", port = "1080", requestMatcher = {}, sendMessage}) => {
+    let requestFilter = {
+        method: undefined,
+        path: undefined,
+        keepAlive: undefined,
+        secure: undefined,
+        headers: undefined,
+        queryStringParameters: undefined,
+        cookies: undefined,
+    };
+    if (requestMatcher.enabled) {
+        requestFilter = {
+            method: requestMatcher.method,
+            path: requestMatcher.path,
+            keepAlive: requestMatcher.keepAlive ? true : undefined,
+            secure: requestMatcher.secure ? true : undefined,
+            headers: undefined,
+            queryStringParameters: undefined,
+            cookies: undefined,
+        };
+        requestFilter.cookies = filterNullsSingleValue(requestMatcher.cookies);
+        requestFilter.headers = filterNullsMultiValue(requestMatcher.headers);
+        requestFilter.queryStringParameters = filterNullsMultiValue(requestMatcher.queryStringParameters);
+    }
+    console.log(JSON.stringify(requestFilter, undefined, 2));
+    sendMessage(requestFilter, host, port);
+};
 
 class Form extends Component {
     static propTypes = {
         host: PropTypes.string.isRequired,
         port: PropTypes.string.isRequired,
+        sendMessage: PropTypes.func.isRequired,
+        disconnectSocket: PropTypes.func.isRequired
     };
+
+    componentWillMount() {
+        loadData(this.props)
+    }
+
+    componentWillUnmount() {
+        this.props.disconnectSocket()
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.requestMatcher !== this.props.requestMatcher) {
+            loadData(nextProps)
+        }
+    }
 
     renderValues = ({fields, disabled}) => {
         return (
@@ -202,7 +277,7 @@ class Form extends Component {
     };
 
     render() {
-        const disabled = !this.props.enabled;
+        const disabled = !this.props.requestMatcher.enabled;
         return (
             <div style={{
                 borderBottomStyle: "dashed",
@@ -334,13 +409,15 @@ class Form extends Component {
 
 const formName = 'requestFilter';
 const selector = formValueSelector(formName);
+const validate = values => {
+    const errors = {};
 
-Form = connect((state, props) => ({
-    enabled: !!selector(state, 'enabled')
-}), {})(Form);
+    return errors
+};
 
 Form = reduxForm({
     form: formName,
+    validate,
     initialValues: {
         headers: [{
             values: [""]
@@ -352,5 +429,18 @@ Form = reduxForm({
     },
     destroyOnUnmount: false
 })(Form);
+
+const mapStateToProps = (state, props) => {
+    return {
+        requestMatcher: selector(state, 'enabled', 'method', 'path', 'keepAlive', 'secure', 'headers', 'queryStringParameters', 'cookies')
+    }
+};
+
+const mapDispatchToProps = {
+    sendMessage,
+    disconnectSocket
+};
+
+Form = connect(mapStateToProps, mapDispatchToProps, undefined, {pure: true})(Form);
 
 export default Form;

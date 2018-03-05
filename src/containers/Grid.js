@@ -4,12 +4,7 @@ import {connect} from 'react-redux';
 import LogList from "../containers/LogList";
 import JsonList from "../containers/JsonList";
 import {transform} from 'lodash/object'
-import {disconnectSocket, sendMessage} from "../actions";
 import './grid.css';
-
-const loadData = ({host = "127.0.0.1", port = "1080", requestFilter = {}, sendMessage}) => {
-    sendMessage(requestFilter, host, port)
-};
 
 class Grid extends Component {
     static propTypes = {
@@ -22,20 +17,6 @@ class Grid extends Component {
         }).isRequired,
         requestFilter: PropTypes.object.isRequired,
     };
-
-    componentWillMount() {
-        loadData(this.props)
-    }
-
-    componentWillUnmount() {
-        this.props.disconnectSocket()
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.requestFilter !== this.props.requestFilter) {
-            loadData(nextProps)
-        }
-    }
 
     render() {
         const {
@@ -141,7 +122,7 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {
-    disconnectSocket,
-    sendMessage
-})(Grid)
+const mapDispatchToProps = {
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Grid)
