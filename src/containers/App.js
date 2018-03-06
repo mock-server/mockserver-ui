@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Form from "../components/Form";
+import RequestFilter from "../components/RequestFilter";
 import Grid from './Grid';
 import {parse} from 'query-string';
 
@@ -27,8 +27,7 @@ export default class App extends Component {
 
     render() {
         return (<div>
-            {/*<RequestMatcher host={App.host()} port={App.port()}/>*/}
-            <Form host={App.host()} port={App.port()}/>
+            <RequestFilter host={App.host()} port={App.port()}/>
             <Grid/>
         </div>)
     }

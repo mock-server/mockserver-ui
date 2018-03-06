@@ -29,11 +29,14 @@ class Grid extends Component {
             },
         } = this.props;
         return (
-            <div style={{}}>
+            <div style={{
+                margin: "1%",
+                width: "98%"
+            }}>
                 <div className="row" style={{
                     borderStyle: "dashed",
                     borderWidth: "1px",
-                    margin: "15px 10px",
+                    margin: "15px 0",
                     padding: "17px 17px",
                     minWidth: "600px",
                 }}>
@@ -44,7 +47,7 @@ class Grid extends Component {
                 <div className="row" style={{
                     borderStyle: "dashed",
                     borderWidth: "1px",
-                    margin: "15px 10px",
+                    margin: "15px 0",
                     padding: "17px 17px",
                     minWidth: "600px",
                 }}>
@@ -55,7 +58,7 @@ class Grid extends Component {
                 <div className="row" style={{
                     borderStyle: "dashed",
                     borderWidth: "1px",
-                    margin: "15px 10px",
+                    margin: "15px 0",
                     padding: "17px 17px",
                     minWidth: "600px",
                 }}>

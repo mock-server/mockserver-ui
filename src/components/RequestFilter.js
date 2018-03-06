@@ -12,7 +12,7 @@ import {
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import PropTypes from "prop-types";
-import {AutoComplete, TextField, Toggle,} from 'redux-form-material-ui';
+import {AutoComplete, SelectField, TextField, Toggle,} from 'redux-form-material-ui';
 import {disconnectSocket, dispatchFilterExpanded, sendMessage} from "../actions";
 
 let filterNullsMultiValue = function (rawItems) {
@@ -73,12 +73,10 @@ const loadData = ({host = "127.0.0.1", port = "1080", requestMatcher = {}, expan
     sendMessage(requestFilter, host, port);
 };
 
-class Form extends Component {
+class RequestFilter extends Component {
     static propTypes = {
         host: PropTypes.string.isRequired,
-        port: PropTypes.string.isRequired,
-        sendMessage: PropTypes.func.isRequired,
-        disconnectSocket: PropTypes.func.isRequired
+        port: PropTypes.string.isRequired
     };
 
     componentWillMount() {
@@ -289,16 +287,11 @@ class Form extends Component {
     };
 
     render() {
-        let disabled = !this.props.expanded;
+        const disabled = !this.props.requestMatcher.enabled;
         return (
             <div style={{
-                borderBottomStyle: "dashed",
-                borderBottomWidth: "1px",
-                paddingBottom: "10px",
-                marginBottom: "10px",
-                display: "table",
-                width: "100%",
-                minWidth: "600px",
+                margin: "1%",
+                width: "98%"
             }}>
                 <Card expanded={this.expanded} onExpandChange={this.handleExpandChange}>
                     <CardHeader
@@ -306,7 +299,7 @@ class Form extends Component {
                         actAsExpander={true}
                         showExpandableButton={true}
                         style={{
-                            backgroundColor: disabled ? "rgba(0, 188, 212, 0.39)" : "rgba(0, 188, 212, 0.15)"
+                            backgroundColor: disabled ? "rgba(220, 220, 220, 0.5)" : "rgba(0, 188, 212, 0.75)"
                         }}
                     />
                     <CardText expandable={true}>
@@ -314,6 +307,25 @@ class Form extends Component {
                             display: "inline"
                         }}>
                             <div style={{
+                                width: "10%",
+                                display: "inline-block",
+                                verticalAlign: "top",
+                            }}>
+                                <div style={{
+                                    paddingRight: "10px",
+                                    padding: "5px",
+                                    display: "inline-block",
+                                }}>
+                                    <Field
+                                        name="enabled"
+                                        component={Toggle}
+                                        label="Enabled"
+                                        labelPosition="left"
+                                    />
+                                </div>
+                            </div>
+                            <div style={{
+                                width: "90%",
                                 display: "inline-block",
                                 verticalAlign: "bottom",
                                 marginBottom: "2%",
@@ -420,7 +432,7 @@ class Form extends Component {
 const formName = 'requestFilter';
 const selector = formValueSelector(formName);
 
-Form = reduxForm({
+RequestFilter = reduxForm({
     form: formName,
     initialValues: {
         headers: [{
@@ -432,11 +444,11 @@ Form = reduxForm({
         cookies: [{}],
     },
     destroyOnUnmount: false
-})(Form);
+})(RequestFilter);
 
 const mapStateToProps = (state, props) => {
     return {
-        requestMatcher: selector(state, 'method', 'path', 'keepAlive', 'secure', 'headers', 'queryStringParameters', 'cookies'),
+        requestMatcher: selector(state, 'enabled', 'method', 'path', 'keepAlive', 'secure', 'headers', 'queryStringParameters', 'cookies'),
         expanded: state.requestFilterExpanded,
     }
 };
@@ -447,6 +459,11 @@ const mapDispatchToProps = {
     dispatchFilterExpanded
 };
 
-Form = connect(mapStateToProps, mapDispatchToProps, undefined, {pure: true})(Form);
+RequestFilter = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    undefined,
+    {pure: true}
+)(RequestFilter);
 
-export default Form;
+export default RequestFilter;
