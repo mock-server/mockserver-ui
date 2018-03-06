@@ -1,12 +1,19 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Field, FieldArray, formValueSelector, reduxForm} from 'redux-form';
-import {AutoComplete as MUIAutoComplete, FloatingActionButton, IconButton} from 'material-ui';
+import {
+    AutoComplete as MUIAutoComplete,
+    Card,
+    CardHeader,
+    CardText,
+    FloatingActionButton,
+    IconButton
+} from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import PropTypes from "prop-types";
 import {AutoComplete, TextField, Toggle,} from 'redux-form-material-ui';
-import {disconnectSocket, sendMessage} from "../actions";
+import {disconnectSocket, dispatchFilterExpanded, sendMessage} from "../actions";
 
 let filterNullsMultiValue = function (rawItems) {
     let items = undefined;
@@ -38,7 +45,7 @@ let filterNullsSingleValue = function (rawItems) {
     }
     return items;
 };
-const loadData = ({host = "127.0.0.1", port = "1080", requestMatcher = {}, sendMessage}) => {
+const loadData = ({host = "127.0.0.1", port = "1080", requestMatcher = {}, expanded = false, sendMessage}) => {
     let requestFilter = {
         method: undefined,
         path: undefined,
@@ -48,7 +55,7 @@ const loadData = ({host = "127.0.0.1", port = "1080", requestMatcher = {}, sendM
         queryStringParameters: undefined,
         cookies: undefined,
     };
-    if (requestMatcher.enabled) {
+    if (expanded) {
         requestFilter = {
             method: requestMatcher.method,
             path: requestMatcher.path,
@@ -83,7 +90,8 @@ class Form extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.requestMatcher !== this.props.requestMatcher) {
+        if (nextProps.requestMatcher !== this.props.requestMatcher
+            || nextProps.expanded !== this.props.expanded) {
             loadData(nextProps)
         }
     }
@@ -106,7 +114,7 @@ class Form extends Component {
                         disabled={disabled}
                         fullWidth={true}
                         style={{
-                            width: "80%",
+                            width: "75%",
                         }}
                         name={field}
                         component={TextField}
@@ -161,10 +169,10 @@ class Form extends Component {
             }}>
                 {fields.map((field, index) => <div key={index} style={{
                     display: "inline-block",
-                    width: "90%",
+                    width: "80%",
                 }}>
                     <div style={{
-                        width: "35%",
+                        width: "30%",
                         padding: "5px",
                         display: "inline-block",
                         verticalAlign: "top",
@@ -223,10 +231,10 @@ class Form extends Component {
             }}>
                 {fields.map((field, index) => <div key={index} style={{
                     display: "inline-block",
-                    width: "90%",
+                    width: "80%",
                 }}>
                     <div style={{
-                        width: "35%",
+                        width: "30%",
                         padding: "5px",
                         display: "inline-block",
                         verticalAlign: "top",
@@ -276,8 +284,12 @@ class Form extends Component {
         </div>)
     };
 
+    handleExpandChange = (expanded) => {
+        this.props.dispatchFilterExpanded(expanded);
+    };
+
     render() {
-        const disabled = !this.props.requestMatcher.enabled;
+        let disabled = !this.props.expanded;
         return (
             <div style={{
                 borderBottomStyle: "dashed",
@@ -286,122 +298,120 @@ class Form extends Component {
                 marginBottom: "10px",
                 display: "table",
                 width: "100%",
+                minWidth: "600px",
             }}>
-                <div style={{
-                    display: "inline"
-                }}>
-                    <div style={{
-                        width: "10%",
-                        display: "inline-block",
-                        verticalAlign: "top",
-                    }}>
+                <Card expanded={this.expanded} onExpandChange={this.handleExpandChange}>
+                    <CardHeader
+                        title="Filter"
+                        actAsExpander={true}
+                        showExpandableButton={true}
+                        style={{
+                            backgroundColor: disabled ? "rgba(0, 188, 212, 0.39)" : "rgba(0, 188, 212, 0.15)"
+                        }}
+                    />
+                    <CardText expandable={true}>
                         <div style={{
-                            paddingRight: "10px",
-                            padding: "5px",
-                            display: "inline-block",
+                            display: "inline"
                         }}>
-                            <Field
-                                name="enabled"
-                                component={Toggle}
-                                label="Filter"
-                                labelPosition="left"
-                                ref="enabled"
-                            />
-                        </div>
-                    </div>
-                    <div style={{
-                        width: "90%",
-                        display: "inline-block",
-                        verticalAlign: "bottom",
-                    }}>
-                        <div style={{
-                            width: "35%",
-                            display: "inline-block",
-                            verticalAlign: "top",
-                        }}>
-                            <div>
+                            <div style={{
+                                display: "inline-block",
+                                verticalAlign: "bottom",
+                                marginBottom: "2%",
+                            }}>
                                 <div style={{
-                                    width: "45%",
-                                    padding: "5px",
+                                    width: "32%",
+                                    paddingLeft: "3%",
                                     display: "inline-block",
                                     verticalAlign: "top",
                                 }}>
-                                    <Field
-                                        disabled={disabled}
-                                        name="method"
-                                        component={AutoComplete}
-                                        fullWidth={true}
-                                        floatingLabelText="Method"
-                                        openOnFocus
-                                        filter={MUIAutoComplete.fuzzyFilter}
-                                        dataSource={['CONNECT', 'DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT', 'TRACE']}
-                                    />
-                                </div>
+                                    <div>
+                                        <div style={{
+                                            width: "45%",
+                                            padding: "5px",
+                                            display: "inline-block",
+                                            verticalAlign: "top",
+                                        }}>
+                                            <Field
+                                                disabled={disabled}
+                                                name="method"
+                                                component={AutoComplete}
+                                                fullWidth={true}
+                                                floatingLabelText="Method"
+                                                openOnFocus
+                                                filter={MUIAutoComplete.fuzzyFilter}
+                                                dataSource={['CONNECT', 'DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT', 'TRACE']}
+                                            />
+                                        </div>
 
-                                <div style={{
-                                    width: "45%",
-                                    padding: "5px",
-                                    display: "inline-block",
-                                    verticalAlign: "top",
-                                }}>
-                                    <Field
-                                        disabled={disabled}
-                                        name="path"
-                                        component={TextField}
-                                        fullWidth={true}
-                                        hintText="Path"
-                                        floatingLabelText="Path"
-                                    />
+                                        <div style={{
+                                            width: "45%",
+                                            padding: "5px",
+                                            display: "inline-block",
+                                            verticalAlign: "top",
+                                        }}>
+                                            <Field
+                                                disabled={disabled}
+                                                name="path"
+                                                component={TextField}
+                                                fullWidth={true}
+                                                hintText="Path"
+                                                floatingLabelText="Path"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style={{
+                                            width: "45%",
+                                            padding: "5px",
+                                            display: "inline-block",
+                                            verticalAlign: "bottom",
+                                        }}>
+                                            <Field
+                                                disabled={disabled}
+                                                name="secure"
+                                                component={Toggle}
+                                                label="Secure"
+                                                labelPosition="right"
+                                            />
+                                        </div>
+
+                                        <div style={{
+                                            width: "45%",
+                                            padding: "5px",
+                                            display: "inline-block",
+                                            verticalAlign: "bottom",
+                                            overflow: "none",
+                                        }}>
+                                            <Field
+                                                disabled={disabled}
+                                                name="keepAlive"
+                                                component={Toggle}
+                                                label="Keep-Alive"
+                                                labelPosition="right"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
                                 <div style={{
-                                    width: "45%",
-                                    padding: "5px",
+                                    width: "65%",
                                     display: "inline-block",
                                     verticalAlign: "bottom",
                                 }}>
-                                    <Field
-                                        disabled={disabled}
-                                        name="secure"
-                                        component={Toggle}
-                                        label="Secure"
-                                        labelPosition="right"
-                                    />
-                                </div>
-
-                                <div style={{
-                                    width: "45%",
-                                    padding: "5px",
-                                    display: "inline-block",
-                                    verticalAlign: "bottom",
-                                }}>
-                                    <Field
-                                        disabled={disabled}
-                                        name="keepAlive"
-                                        component={Toggle}
-                                        label="Keep-Alive"
-                                        labelPosition="right"
-                                    />
+                                    <div>
+                                        <FieldArray name={`headers`} component={this.renderKeysToMultiValues}
+                                                    disabled={disabled} title={"Headers:"}/>
+                                        <FieldArray name={`cookies`} component={this.renderKeysToValues}
+                                                    disabled={disabled}
+                                                    title={"Cookies:"}/>
+                                        <FieldArray name={`queryStringParameters`}
+                                                    component={this.renderKeysToMultiValues}
+                                                    disabled={disabled} title={"Query Parameters:"}/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div style={{
-                            width: "65%",
-                            display: "inline-block",
-                            verticalAlign: "bottom",
-                        }}>
-                            <div>
-                                <FieldArray name={`headers`} component={this.renderKeysToMultiValues}
-                                            disabled={disabled} title={"Headers:"}/>
-                                <FieldArray name={`cookies`} component={this.renderKeysToValues} disabled={disabled}
-                                            title={"Cookies:"}/>
-                                <FieldArray name={`queryStringParameters`} component={this.renderKeysToMultiValues}
-                                            disabled={disabled} title={"Query Parameters:"}/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    </CardText>
+                </Card>
             </div>
         );
     }
@@ -409,15 +419,9 @@ class Form extends Component {
 
 const formName = 'requestFilter';
 const selector = formValueSelector(formName);
-const validate = values => {
-    const errors = {};
-
-    return errors
-};
 
 Form = reduxForm({
     form: formName,
-    validate,
     initialValues: {
         headers: [{
             values: [""]
@@ -432,13 +436,15 @@ Form = reduxForm({
 
 const mapStateToProps = (state, props) => {
     return {
-        requestMatcher: selector(state, 'enabled', 'method', 'path', 'keepAlive', 'secure', 'headers', 'queryStringParameters', 'cookies')
+        requestMatcher: selector(state, 'method', 'path', 'keepAlive', 'secure', 'headers', 'queryStringParameters', 'cookies'),
+        expanded: state.requestFilterExpanded,
     }
 };
 
 const mapDispatchToProps = {
     sendMessage,
-    disconnectSocket
+    disconnectSocket,
+    dispatchFilterExpanded
 };
 
 Form = connect(mapStateToProps, mapDispatchToProps, undefined, {pure: true})(Form);

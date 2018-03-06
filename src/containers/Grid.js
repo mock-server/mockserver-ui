@@ -30,57 +30,50 @@ class Grid extends Component {
         } = this.props;
         return (
             <div style={{}}>
-                <div className="row" style={
-                    {
-                        borderStyle: "dashed",
-                        borderWidth: "1px",
-                        margin: "15px 10px",
-                        padding: "17px 17px"
-                    }
-                }>
+                <div className="row" style={{
+                    borderStyle: "dashed",
+                    borderWidth: "1px",
+                    margin: "15px 10px",
+                    padding: "17px 17px",
+                    minWidth: "600px",
+                }}>
                     <LogList items={logMessages}
                              header={"Log Messages (most recent at the top)"}
                              logMessageMaxWidth={logMessageMaxWidth}/>
                 </div>
-                <div className="row" style={
-                    {
-                        borderStyle: "dashed",
-                        borderWidth: "1px",
-                        margin: "15px 10px",
-                        padding: "17px 17px"
-                    }
-                }>
+                <div className="row" style={{
+                    borderStyle: "dashed",
+                    borderWidth: "1px",
+                    margin: "15px 10px",
+                    padding: "17px 17px",
+                    minWidth: "600px",
+                }}>
                     <JsonList items={activeExpectations}
                               header={"Active Expectations (in the order they are applied)"}
                               reverseIndex={false}/>
                 </div>
-                <div className="row" style={
-                    {
-                        borderStyle: "dashed",
-                        borderWidth: "1px",
-                        margin: "15px 10px",
-                        padding: "17px 17px"
-                    }
-                }>
-                    <div style={
-                        {
-                            width: "49%",
-                            float: "left",
-                            padding: "0",
-                            paddingRight: "1%",
-                            borderRightStyle: "dashed",
-                            borderRightWidth: "1px",
-                        }
-                    }>
+                <div className="row" style={{
+                    borderStyle: "dashed",
+                    borderWidth: "1px",
+                    margin: "15px 10px",
+                    padding: "17px 17px",
+                    minWidth: "600px",
+                }}>
+                    <div style={{
+                        width: "49%",
+                        float: "left",
+                        padding: "0",
+                        paddingRight: "1%",
+                        borderRightStyle: "dashed",
+                        borderRightWidth: "1px",
+                    }}>
                         <JsonList items={recordedRequests}
                                   header={"Received Requests (most recent at the top)"}/>
                     </div>
-                    <div style={
-                        {
-                            width: "49%",
-                            float: "right"
-                        }
-                    }>
+                    <div style={{
+                        width: "49%",
+                        float: "right"
+                    }}>
                         <JsonList items={transform(recordedExpectations, function (result, expectation) {
                             result.push({
                                 key: expectation.key,
@@ -122,7 +115,6 @@ const mapStateToProps = (state) => {
     }
 };
 
-const mapDispatchToProps = {
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid)

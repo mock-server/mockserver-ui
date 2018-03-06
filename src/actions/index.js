@@ -1,11 +1,12 @@
-export const FILTER_UPDATED = 'FILTER_UPDATED';
+export const FILTER_EXPANDED = 'FILTER_EXPANDED';
 
-const filterUpdated = () => ({
-    type: FILTER_UPDATED
+const filterExpanded = (expanded) => ({
+    type: FILTER_EXPANDED,
+    expanded: expanded
 });
 
-export const dispatchFilterUpdated = (message, host, port) => (dispatch) => {
-    return dispatch(filterUpdated(message, host, port));
+export const dispatchFilterExpanded = (expanded) => (dispatch) => {
+    return dispatch(filterExpanded(expanded));
 };
 
 export const CONNECT_SOCKET = 'CONNECT_SOCKET';

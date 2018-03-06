@@ -51,7 +51,6 @@ export default (function () {
                 break;
             default:
                 // listen for changes here
-                console.log(action.type);
                 return next(action)
         }
     }
