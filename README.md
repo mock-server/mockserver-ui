@@ -2,8 +2,7 @@
 
 > A dashboard to view the expectations, requests, and logs in [MockServer](http://mock-server.com/)
 
-[![Build status](https://badge.buildkite.com/84d4f1ca00ee6639c1825ea31f0dcd50bd73088571813a219b.svg?style=square&theme=slack)](https://buildkite.com/mockserver/mockserver-ui) [![Dependency Status](https://david-dm.org/jamesdbloom/mockserver-ui.png)](https://david-dm.org/jamesdbloom/mockserver-ui) [![devDependency Status](https://david-dm.org/jamesdbloom/mockserver-ui/dev-status.png)](https://david-dm.org/jamesdbloom/mockserver-ui#info=devDependencies) [![Code Climate](http://codeclimate.com/github/jamesdbloom/mockserver-ui.png)](https://codeclimate.com/github/jamesdbloom/mockserver-ui) 
-
+[![Build status](https://badge.buildkite.com/a1d7b386b768855f167d5104bc4e71cd6176e84af4faf09024.svg?style=square&theme=slack)](https://buildkite.com/mockserver/mockserver-ui) [![Dependency Status](https://david-dm.org/jamesdbloom/mockserver-ui.png)](https://david-dm.org/jamesdbloom/mockserver-ui) [![devDependency Status](https://david-dm.org/jamesdbloom/mockserver-ui/dev-status.png)](https://david-dm.org/jamesdbloom/mockserver-ui#info=devDependencies) [![Code Climate](http://codeclimate.com/github/jamesdbloom/mockserver-ui.png)](https://codeclimate.com/github/jamesdbloom/mockserver-ui) 
 
 For chat room: [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jamesdbloom/mockserver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
