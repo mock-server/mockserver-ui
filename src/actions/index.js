@@ -1,14 +1,3 @@
-export const FILTER_EXPANDED = 'FILTER_EXPANDED';
-
-const filterExpanded = (expanded) => ({
-    type: FILTER_EXPANDED,
-    expanded: expanded
-});
-
-export const dispatchFilterExpanded = (expanded) => (dispatch) => {
-    return dispatch(filterExpanded(expanded));
-};
-
 export const CONNECT_SOCKET = 'CONNECT_SOCKET';
 
 const connectWebSocket = (host, port, contextPath) => ({

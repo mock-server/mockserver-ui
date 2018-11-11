@@ -7,13 +7,14 @@ import {
     CardHeader,
     CardText,
     FloatingActionButton,
+    MenuItem,
     IconButton
 } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import PropTypes from "prop-types";
 import {AutoComplete, SelectField, TextField, Toggle,} from 'redux-form-material-ui';
-import {disconnectSocket, dispatchFilterExpanded, sendMessage} from "../actions";
+import {disconnectSocket, sendMessage} from "../actions";
 
 let filterNullsMultiValue = function (rawItems) {
     let items = undefined;
@@ -45,7 +46,7 @@ let filterNullsSingleValue = function (rawItems) {
     }
     return items;
 };
-const loadData = ({host = "127.0.0.1", port = "1080", requestMatcher = {}, expanded = false, sendMessage}) => {
+const loadData = ({host = "127.0.0.1", port = "1080", requestMatcher = {}, sendMessage}) => {
     let requestFilter = {
         method: undefined,
         path: undefined,
@@ -55,7 +56,7 @@ const loadData = ({host = "127.0.0.1", port = "1080", requestMatcher = {}, expan
         queryStringParameters: undefined,
         cookies: undefined,
     };
-    if (expanded) {
+    if (requestMatcher.enabled) {
         requestFilter = {
             method: requestMatcher.method,
             path: requestMatcher.path,
@@ -78,10 +79,6 @@ class RequestFilter extends Component {
         host: PropTypes.string.isRequired,
         port: PropTypes.string.isRequired
     };
-
-    componentWillMount() {
-        loadData(this.props)
-    }
 
     componentWillUnmount() {
         this.props.disconnectSocket()
@@ -282,10 +279,6 @@ class RequestFilter extends Component {
         </div>)
     };
 
-    handleExpandChange = (expanded) => {
-        this.props.dispatchFilterExpanded(expanded);
-    };
-
     render() {
         const disabled = !this.props.requestMatcher.enabled;
         return (
@@ -293,7 +286,7 @@ class RequestFilter extends Component {
                 margin: "1%",
                 width: "98%"
             }}>
-                <Card expanded={this.expanded} onExpandChange={this.handleExpandChange}>
+                <Card expanded={this.expanded}>
                     <CardHeader
                         title="Filter"
                         actAsExpander={true}
@@ -346,13 +339,21 @@ class RequestFilter extends Component {
                                             <Field
                                                 disabled={disabled}
                                                 name="method"
-                                                component={AutoComplete}
+                                                component={SelectField}
                                                 fullWidth={true}
                                                 floatingLabelText="Method"
-                                                openOnFocus
-                                                filter={MUIAutoComplete.fuzzyFilter}
-                                                dataSource={['CONNECT', 'DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT', 'TRACE']}
-                                            />
+                                            >
+                                                <MenuItem value="" primaryText="" />
+                                                <MenuItem value="CONNECT" primaryText="CONNECT" />
+                                                <MenuItem value="DELETE" primaryText="DELETE" />
+                                                <MenuItem value="GET" primaryText="GET" />
+                                                <MenuItem value="HEAD" primaryText="HEAD" />
+                                                <MenuItem value="OPTIONS" primaryText="OPTIONS" />
+                                                <MenuItem value="PATCH" primaryText="PATCH" />
+                                                <MenuItem value="POST" primaryText="POST" />
+                                                <MenuItem value="PUT" primaryText="PUT" />
+                                                <MenuItem value="TRACE" primaryText="TRACE" />
+                                            </Field>
                                         </div>
 
                                         <div style={{
@@ -455,8 +456,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
     sendMessage,
-    disconnectSocket,
-    dispatchFilterExpanded
+    disconnectSocket
 };
 
 RequestFilter = connect(

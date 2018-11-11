@@ -24,7 +24,7 @@ const entities = (state = {
                     if (httpRequest && JSON.stringify(httpRequest) === JSON.stringify(value.httpRequest)) {
                         value.messageFormat = " {}didn't match expectation:{}because:{}";
                         value.arguments[0] = "";
-                        value.timeStamp = "";
+                        value.timestamp = "";
                     }
                     httpRequest = value.httpRequest;
                 } else {

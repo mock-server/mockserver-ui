@@ -16,22 +16,6 @@ describe('async actions', () => {
         //     .getOnce('/todos', { body: { todos: ['do something'] }, headers: { 'content-type': 'application/json' } });
     });
 
-    it('should create REQUEST_MATCHER_UPDATE', () => {
-        // given
-        let requestMatcher = {};
-
-        const expectedActions = [
-            {type: SocketActions.REQUEST_MATCHER_UPDATE, requestMatcher}
-        ];
-        const store = mockStore({requestMatcher: {}});
-
-        // when
-        store.dispatch(SocketActions.requestMatcherUpdate(requestMatcher));
-
-        // then
-        expect(store.getActions()).toEqual(expectedActions);
-    });
-
     it('should create CONNECT_SOCKET', () => {
         // given
         let host = "random.host";
@@ -39,7 +23,7 @@ describe('async actions', () => {
         let contextPath = "";
 
         const expectedActions = [
-            {type: SocketActions.CONNECT_SOCKET, host, port}
+            {type: SocketActions.CONNECT_SOCKET, contextPath, host, port}
         ];
         const store = mockStore({requestMatcher: {}});
 

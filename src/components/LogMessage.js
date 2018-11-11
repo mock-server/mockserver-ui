@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import JsonItem from "./JsonItem";
-import './table.css';
+import './log.css';
 
 export default class LogMessage extends Component {
     static propTypes = {
@@ -42,7 +42,8 @@ export default class LogMessage extends Component {
                             return <span key={index}
                                          style={{
                                              display: "block",
-                                             font: "1em 'Averia Sans Libre', 'Gloria Hallelujah', 'Indie Flower', Helvetica, Arial, sans-serif",
+                                             fontSize: "0.85em",
+                                             lineHeight: "1.25em",
                                              color: color
                                          }}>{reason}</span>
                         }
@@ -165,7 +166,7 @@ export default class LogMessage extends Component {
         } = this.props;
         const formattedMessage = LogMessage.messageFormatter(logMessage.messageFormat, logMessage.arguments, this.cellStyle, logMessageMaxWidth);
         const noBorderTop = formattedMessage[0].props.children <= 1 || index === 0;
-        const timestamp = logMessage.timeStamp.replace((new Date()).toISOString().split('T')[0], "").trim();
+        const timestamp = logMessage.timestamp && logMessage.timestamp.replace((new Date()).toISOString().split('T')[0], "").trim();
         return (<div style={LogMessage.selectStyle(logMessage.type, noBorderTop)}>
             <div style={Object.assign({whiteSpace: "nowrap"}, this.cellStyle)}>{timestamp}</div>
             {formattedMessage.map(div => div)}
