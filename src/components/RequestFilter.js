@@ -70,7 +70,6 @@ const loadData = ({host = "127.0.0.1", port = "1080", requestMatcher = {}, sendM
         requestFilter.headers = filterNullsMultiValue(requestMatcher.headers);
         requestFilter.queryStringParameters = filterNullsMultiValue(requestMatcher.queryStringParameters);
     }
-    console.log(JSON.stringify(requestFilter, undefined, 2));
     sendMessage(requestFilter, host, port);
 };
 
@@ -85,8 +84,7 @@ class RequestFilter extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.requestMatcher !== this.props.requestMatcher
-            || nextProps.expanded !== this.props.expanded) {
+        if (nextProps.requestMatcher !== this.props.requestMatcher || nextProps.expanded !== this.props.expanded) {
             loadData(nextProps)
         }
     }

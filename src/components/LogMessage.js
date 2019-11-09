@@ -165,7 +165,7 @@ export default class LogMessage extends Component {
             index
         } = this.props;
         const formattedMessage = LogMessage.messageFormatter(logMessage.messageFormat, logMessage.arguments, this.cellStyle, logMessageMaxWidth);
-        const noBorderTop = formattedMessage[0].props.children <= 1 || index === 0;
+        const noBorderTop = (formattedMessage[0] && formattedMessage[0].props.children <= 1) || index === 0;
         const timestamp = logMessage.timestamp && logMessage.timestamp.replace((new Date()).toISOString().split('T')[0], "").trim();
         return (<div style={LogMessage.selectStyle(logMessage.type, noBorderTop)}>
             <div style={Object.assign({whiteSpace: "nowrap"}, this.cellStyle)}>{timestamp}</div>
