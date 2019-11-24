@@ -12,9 +12,15 @@
 * Chat:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://join-mock-server-slack.herokuapp.com" target="_blank"><img height="20px" src="http://mock-server.com/images/slack-logo-slim-md.png" alt="Join Slack"></a>
 
 ## Getting Started
-This node module is built using [react-scripts](https://www.npmjs.com/package/react-scripts), it is not intended to use stand alone (except for development) and is bundled into [MockServer](http://mock-server.com/) on path `/mockserver/dashboard`, for example `https://localhost:1080/mockserver/dashboard`.
+This node module is built using [react-scripts](https://www.npmjs.com/package/react-scripts), it is not intended to use stand alone (except for development) and is bundled into [MockServer](http://mock-server.com/) on path `/mockserver/dashboard`, for example:
+```
+https://localhost:1080/mockserver/dashboard
+```
 
-For development this node module can be run using `npm start` and can be pointed at a running version of [MockServer](http://mock-server.com/) using `host`, `port` and `context` query parameters as required, for example: `http://localhost:3000/?host=localhost&port=1080&context=`. 
+For development this node module can be run using `npm start` and can be pointed at a running version of [MockServer](http://mock-server.com/) using `host`, `port` and `context` query parameters as required, for example: 
+```
+http://localhost:3000/?host=localhost&port=1080&context=
+```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
