@@ -46,7 +46,7 @@ let filterNullsSingleValue = function (rawItems) {
     }
     return items;
 };
-const loadData = ({host = "127.0.0.1", port = "1080", requestMatcher = {}, sendMessage}) => {
+const loadData = ({host = "127.0.0.1", port = "1080", secure = true, requestMatcher = {}, sendMessage}) => {
     let requestFilter = {
         method: undefined,
         path: undefined,
@@ -70,13 +70,14 @@ const loadData = ({host = "127.0.0.1", port = "1080", requestMatcher = {}, sendM
         requestFilter.headers = filterNullsMultiValue(requestMatcher.headers);
         requestFilter.queryStringParameters = filterNullsMultiValue(requestMatcher.queryStringParameters);
     }
-    sendMessage(requestFilter, host, port);
+    sendMessage(requestFilter, host, port, secure);
 };
 
 class RequestFilter extends Component {
     static propTypes = {
         host: PropTypes.string.isRequired,
-        port: PropTypes.string.isRequired
+        port: PropTypes.string.isRequired,
+        secure: PropTypes.bool.isRequired
     };
 
     componentWillUnmount() {

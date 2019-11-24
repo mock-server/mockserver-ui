@@ -1,6 +1,4 @@
-import {
-    CONNECT_SOCKET, DISCONNECT_SOCKET, SEND_MESSAGE, webSocketMessageReceived
-} from '../actions'
+import {CONNECT_SOCKET, DISCONNECT_SOCKET, SEND_MESSAGE, webSocketMessageReceived} from '../actions'
 
 export default (function () {
     let socket = null;
@@ -17,8 +15,7 @@ export default (function () {
         if (socket != null) {
             socket.close()
         }
-
-        socket = new WebSocket("ws://" + action.host + ":" + action.port + "/_mockserver_ui_websocket");
+        socket = new WebSocket((action.secure ? "wss" : "ws") + "://" + action.host + ":" + action.port + "/_mockserver_ui_websocket");
         socket.onmessage = (event) => {
             next(webSocketMessageReceived(
                 JSON.parse(event.data)

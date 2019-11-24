@@ -25,9 +25,17 @@ export default class App extends Component {
         }
     }
 
+    static secure() {
+        if (window.location.protocol) {
+            return window.location.protocol === "https:";
+        } else {
+            return false;
+        }
+    }
+
     render() {
         return (<div>
-            <RequestFilter host={App.host()} port={App.port()}/>
+            <RequestFilter host={App.host()} port={App.port()} secure={App.secure()}/>
             <Grid/>
         </div>)
     }
