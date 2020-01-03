@@ -57,7 +57,7 @@ export default class LogMessage extends Component {
                                     color: "rgb(222, 147, 95)",
                                     fontSize: "30px",
                                     lineHeight: "15px"
-                                }}>...
+                                }}><span>...</span>
                                 </summary>
                                 {reason}
                             </details>

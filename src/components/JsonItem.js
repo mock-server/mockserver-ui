@@ -10,12 +10,7 @@ export default class JsonItem extends Component {
                 httpObject = httpObject.httpRequest;
             }
             if (httpObject.method) {
-                const value = httpObject.method;
-                if (index) {
-                    index = index + " " + value;
-                } else {
-                    index = value;
-                }
+                index = httpObject.method;
             }
             if (httpObject.path) {
                 const value = httpObject.path;
@@ -56,7 +51,30 @@ export default class JsonItem extends Component {
             textStyle = {}
         } = this.props;
 
-        if (typeof jsonItem === "object") {
+        if (Array.isArray(jsonItem)) {
+            return (<ReactJson
+                src={jsonItem}
+                style={{
+                    whiteSpace: "nowrap",
+                    paddingTop: "6px",
+                    display: (display === "table-cell" ? "table-cell" : "block")
+                }}
+                name={null}
+                theme={"tomorrow"}
+                iconStyle={"triangle"}
+                indentWidth={4}
+                collapsed={collapsed != null ? collapsed : 0}
+                shouldCollapse={() => {
+                    return false
+                }}
+                enableClipboard={enableClipboard}
+                displayObjectSize={false}
+                displayDataTypes={false}
+                onEdit={false}
+                onAdd={false}
+                onDelete={false}
+            />);
+        } else if (typeof jsonItem === "object") {
             return (<ReactJson
                 src={jsonItem}
                 style={{
@@ -75,7 +93,7 @@ export default class JsonItem extends Component {
                 iconStyle={"triangle"}
                 indentWidth={4}
                 collapsed={collapsed != null ? collapsed : 0}
-                shouldCollapse={(field) => {
+                shouldCollapse={() => {
                     return false
                 }}
                 enableClipboard={enableClipboard}
@@ -93,9 +111,14 @@ export default class JsonItem extends Component {
                         fontSize: "30px",
                         lineHeight: "15px",
                         display: "table-cell"
-                    }}>...
+                    }}><span>...</span>
                     </summary>
-                    <pre>{jsonItem}</pre>
+                    <pre style={{
+                        position: "relative",
+                        top: "-5px",
+                        left: "20px",
+                        paddingRight: "35px"
+                    }}>{jsonItem}</pre>
                 </details>
             );
         } else if (typeof jsonItem === "string") {

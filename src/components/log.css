@@ -7,3 +7,11 @@ summary::-webkit-details-marker {
 *:focus {
     outline:0;
 }
+
+details.open > summary {
+    visibility: hidden;
+}
+
+details[open] summary span {
+    visibility: hidden;
+}
