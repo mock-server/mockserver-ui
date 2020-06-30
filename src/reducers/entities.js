@@ -2,17 +2,16 @@ import {MESSAGE_RECEIVED} from '../actions'
 
 const entities = (state = {
     activeExpectations: [],
-    recordedExpectations: [],
+    proxiedRequests: [],
     recordedRequests: [],
     logMessages: []
 }, action) => {
     if (action.type === MESSAGE_RECEIVED && action.entities) {
         return {
             activeExpectations: action.entities.activeExpectations ? action.entities.activeExpectations : [],
-            recordedExpectations: action.entities.recordedExpectations ? action.entities.recordedExpectations : [],
+            proxiedRequests: action.entities.proxiedRequests ? action.entities.proxiedRequests : [],
             recordedRequests: action.entities.recordedRequests ? action.entities.recordedRequests : [],
-            logMessages: action.entities.logMessages,
-            logMessageMaxWidth: 150
+            logMessages: action.entities.logMessages
         };
     }
     return state;

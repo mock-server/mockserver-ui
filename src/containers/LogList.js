@@ -10,14 +10,12 @@ export default class LogList extends Component {
             key: PropTypes.string.isRequired,
             value: PropTypes.object.isRequired
         })).isRequired,
-        logMessageMaxWidth: PropTypes.number.isRequired,
     };
 
     render() {
         const {
             header = "",
             items = [],
-            logMessageMaxWidth = 0,
         } = this.props;
         return (
             <div style={{
@@ -43,8 +41,7 @@ export default class LogList extends Component {
                     }>
                         {items.map((item, index) => <LogMessage index={index}
                                                                       key={item.key}
-                                                                      logMessage={item.value}
-                                                                      logMessageMaxWidth={logMessageMaxWidth}/>)}
+                                                                      logMessage={item.value}/>)}
 
                     </div>
                 </div>

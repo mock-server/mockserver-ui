@@ -8,7 +8,7 @@ describe('async actions', () => {
         // given
         let state = {
             activeExpectations: ["active_ex_one"],
-            recordedExpectations: ["recorded_ex_one"],
+            proxiedRequests: ["recorded_ex_one"],
             recordedRequests: ["recorded_req_one"],
             logMessages: ["log_one"]
         };
@@ -16,7 +16,7 @@ describe('async actions', () => {
             type: MESSAGE_RECEIVED,
             entities: {
                 activeExpectations: ["active_ex_two"],
-                recordedExpectations: ["recorded_ex_two"],
+                proxiedRequests: ["recorded_ex_two"],
                 recordedRequests: ["recorded_req_two"],
                 logMessages: [{
                     key: "three_key",
@@ -46,9 +46,8 @@ describe('async actions', () => {
         // then
         expect(JSON.parse(JSON.stringify(reducedState))).toEqual({
             activeExpectations: ["active_ex_two"],
-            recordedExpectations: ["recorded_ex_two"],
+            proxiedRequests: ["recorded_ex_two"],
             recordedRequests: ["recorded_req_two"],
-            logMessageMaxWidth: 6,
             logMessages: [{
                 key: "one_key",
                 value: {
@@ -77,7 +76,7 @@ describe('async actions', () => {
             type: MESSAGE_RECEIVED,
             entities: {
                 activeExpectations: ["active_ex_two"],
-                recordedExpectations: ["recorded_ex_two"],
+                proxiedRequests: ["recorded_ex_two"],
                 recordedRequests: ["recorded_req_two"],
                 logMessages: [{
                     key: "three_key",
@@ -107,9 +106,8 @@ describe('async actions', () => {
         // then
         expect(JSON.parse(JSON.stringify(reducedState))).toEqual({
             activeExpectations: ["active_ex_two"],
-            recordedExpectations: ["recorded_ex_two"],
+            proxiedRequests: ["recorded_ex_two"],
             recordedRequests: ["recorded_req_two"],
-            logMessageMaxWidth: 6,
             logMessages: [{
                 key: "one_key",
                 value: {
@@ -138,7 +136,7 @@ describe('async actions', () => {
             type: "ANOTHER_TYPE",
             entities: {
                 activeExpectations: ["active_ex_two"],
-                recordedExpectations: ["recorded_ex_two"],
+                proxiedRequests: ["recorded_ex_two"],
                 recordedRequests: ["recorded_req_two"],
                 logMessages: ["log_two"]
             }
@@ -150,7 +148,7 @@ describe('async actions', () => {
         // then
         expect(reducedState).toEqual({
             activeExpectations: [],
-            recordedExpectations: [],
+            proxiedRequests: [],
             recordedRequests: [],
             logMessages: []
         });
@@ -161,7 +159,7 @@ describe('async actions', () => {
         let action = {
             entities: {
                 activeExpectations: ["active_ex_two"],
-                recordedExpectations: ["recorded_ex_two"],
+                proxiedRequests: ["recorded_ex_two"],
                 recordedRequests: ["recorded_req_two"],
                 logMessages: ["log_two"]
             }
@@ -173,7 +171,7 @@ describe('async actions', () => {
         // then
         expect(reducedState).toEqual({
             activeExpectations: [],
-            recordedExpectations: [],
+            proxiedRequests: [],
             recordedRequests: [],
             logMessages: []
         });
@@ -191,7 +189,7 @@ describe('async actions', () => {
         // then
         expect(reducedState).toEqual({
             activeExpectations: [],
-            recordedExpectations: [],
+            proxiedRequests: [],
             recordedRequests: [],
             logMessages: []
         });

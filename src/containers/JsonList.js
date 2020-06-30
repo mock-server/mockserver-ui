@@ -8,6 +8,7 @@ export default class JsonList extends Component {
         header: PropTypes.string.isRequired,
         items: PropTypes.arrayOf(PropTypes.shape({
             key: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
             value: PropTypes.object.isRequired
         })).isRequired,
     };
@@ -35,6 +36,7 @@ export default class JsonList extends Component {
                 }}>
                     {items.map((item, index) => <JsonItem index={reverseIndex ? items.length - index : index + 1}
                                                               key={item.key}
+                                                              description={item.description}
                                                               jsonItem={item.value}/>)}
                 </div>
             </div>
