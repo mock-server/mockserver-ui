@@ -52,13 +52,13 @@ export default class LogMessage extends Component {
                             }
                         );
                         return <div key={messagePart.key}
-                                    style={this.cellStyle}>
+                                    style={Object.assign({paddingLeft: "5px",}, this.cellStyle)}>
                             <details>
                                 <summary style={{
                                     color: "rgb(222, 147, 95)",
-                                    fontSize: "22px",
+                                    fontSize: "19px",
                                     lineHeight: "25px",
-                                    paddingLeft: "1px",
+                                    paddingLeft: "5px",
                                     paddingTop: "0px",
                                     marginTop: "-1px",
                                 }}><span>...</span>

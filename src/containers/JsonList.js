@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import JsonItem from "../components/JsonItem";
 import ListHeader from "../components/ListHeader";
+import JsonItem from "../components/JsonItem";
 
 export default class JsonList extends Component {
     static propTypes = {
         header: PropTypes.string.isRequired,
         items: PropTypes.arrayOf(PropTypes.shape({
             key: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
+            description: PropTypes.oneOfType([PropTypes.object.isRequired, PropTypes.string.isRequired]).isRequired,
             value: PropTypes.object.isRequired
         })).isRequired,
     };
@@ -34,10 +34,13 @@ export default class JsonList extends Component {
                     backgroundColor: "rgb(29, 31, 33)",
                     color: "rgb(250, 250, 250)",
                 }}>
-                    {items.map((item, index) => <JsonItem index={reverseIndex ? items.length - index : index + 1}
-                                                              key={item.key}
-                                                              description={item.description}
-                                                              jsonItem={item.value}/>)}
+                    {items.map((item, index) => {
+                        return <JsonItem index={reverseIndex ? items.length - index : index + 1}
+                                         key={item.key}
+                                         display={"table-cell"}
+                                         description={item.description}
+                                         jsonItem={item.value}/>;
+                    })}
                 </div>
             </div>
         );
