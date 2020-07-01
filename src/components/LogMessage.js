@@ -5,94 +5,155 @@ import './log.css';
 
 export default class LogMessage extends Component {
     static propTypes = {
-        logMessage: PropTypes.object.isRequired
-    };
-    cellStyle = {
-        display: "table-cell",
-        fontFamily: "monospace, Roboto, sans-serif"
+        logMessage: PropTypes.oneOfType([PropTypes.object.isRequired, PropTypes.array.isRequired]).isRequired,
+        group: PropTypes.object
     };
 
     render() {
         const {
             logMessage = {},
+            group = false,
+            indent = false,
         } = this.props;
-        return (<div style={logMessage.style}>
-            <div style={Object.assign({
-                whiteSpace: "pre",
-            }, this.cellStyle)}>{logMessage.description}</div>
-            {logMessage.messageParts.map((messagePart) => {
-                if (!messagePart.argument) {
-                    return <div key={messagePart.key}
-                                style={this.cellStyle}>{messagePart.value}</div>;
-                } else {
-                    if (messagePart.multiline || messagePart.because) {
-                        let reason = messagePart.value.map(
-                            (reason, index) => {
-                                let color = "rgb(255, 255, 255)";
-                                if (messagePart.because) {
-                                    if (reason.indexOf("matched") !== -1) {
-                                        color = "rgb(107, 199, 118)";
-                                    } else if (reason.indexOf("didn't match") !== -1) {
-                                        color = "rgb(216, 88, 118)";
-                                    } else {
-                                        color = "rgb(255, 255, 255)";
-                                    }
-                                }
-                                return <span key={messagePart.key + "_" + index}
-                                             style={{
-                                                 marginTop: "-10px",
-                                                 color: color,
-                                                 display: "block",
-                                                 fontSize: "0.95em",
-                                                 lineHeight: "1.5em",
-                                                 whiteSpace: "pre",
-                                                 paddingLeft: "20px",
-                                                 paddingBottom: "10px",
-                                             }}>{reason}</span>
-                            }
-                        );
+
+        function renderItem(logMessage) {
+            let cellStyle = {
+                display: "table-cell",
+                fontFamily: "monospace, Roboto, sans-serif"
+            };
+            return <div style={Object.assign({
+                paddingLeft: "5px",
+                paddingRight: "5px",
+                fontSize: indent ? "0.9em" : "1.0em"
+            }, logMessage.style)}>
+                <div style={Object.assign({
+                    whiteSpace: "pre",
+                    position: "relative",
+                }, cellStyle)}>{logMessage.description}</div>
+                {logMessage.messageParts ? logMessage.messageParts.map((messagePart) => {
+                    if (!messagePart.argument) {
                         return <div key={messagePart.key}
-                                    style={Object.assign({paddingLeft: "5px",}, this.cellStyle)}>
-                            <details>
-                                <summary style={{
-                                    color: "rgb(222, 147, 95)",
-                                    fontSize: "19px",
-                                    lineHeight: "25px",
-                                    paddingLeft: "5px",
-                                    paddingTop: "0px",
-                                    marginTop: "-1px",
-                                }}><span>...</span>
-                                </summary>
-                                {reason}
-                            </details>
-                        </div>;
-                    } else if (messagePart.json) {
-                        return <JsonItem key={messagePart.key}
-                                         index={null}
-                                         collapsed="0"
-                                         display={"table-cell"}
-                                         textStyle={{
-                                             fontFamily: "monospace, Roboto, sans-serif",
-                                             backgroundColor: "rgb(29, 31, 33)",
-                                             display: "table-cell",
-                                             verticalAlign: "top",
-                                             padding: "2px",
-                                         }}
-                                         enableClipboard={false}
-                                         jsonItem={messagePart.value}/>;
+                                    style={cellStyle}>{messagePart.value}</div>;
                     } else {
-                        return <div key={messagePart.key}
-                                    style={{
-                                        fontFamily: "Roboto, sans-serif",
-                                        color: "rgb(255, 255, 255)",
-                                        display: "table-cell",
+                        if (messagePart.multiline || messagePart.because) {
+                            let reason = messagePart.value.map(
+                                (reason, index) => {
+                                    let color = "rgb(255, 255, 255)";
+                                    if (messagePart.because) {
+                                        if (reason.indexOf("matched") !== -1) {
+                                            color = "rgb(107, 199, 118)";
+                                        } else if (reason.indexOf("didn't match") !== -1) {
+                                            color = "rgb(216, 88, 118)";
+                                        } else {
+                                            color = "rgb(255, 255, 255)";
+                                        }
+                                    }
+                                    return <span key={messagePart.key + "_" + index}
+                                                 style={{
+                                                     marginTop: "-10px",
+                                                     color: color,
+                                                     display: "block",
+                                                     fontSize: "0.95em",
+                                                     lineHeight: "1.5em",
+                                                     whiteSpace: "pre",
+                                                     paddingLeft: "20px",
+                                                     paddingBottom: "10px",
+                                                 }}>{reason}</span>
+                                }
+                            );
+                            return <div key={messagePart.key}
+                                        style={Object.assign({paddingLeft: "5px",}, cellStyle)}>
+                                <details className={"because"}>
+                                    <summary style={{
+                                        color: "rgb(222, 147, 95)",
+                                        fontSize: "19px",
+                                        lineHeight: "25px",
                                         paddingLeft: "5px",
-                                        paddingRight: "5px",
-                                        whiteSpace: "pre",
-                                    }}>{messagePart.value}</div>;
+                                        paddingTop: "0px",
+                                        marginTop: "-1px",
+                                    }}><span>...</span>
+                                    </summary>
+                                    {reason}
+                                </details>
+                            </div>;
+                        } else if (messagePart.json) {
+                            return <JsonItem key={messagePart.key}
+                                             index={null}
+                                             collapsed="0"
+                                             display={"table-cell"}
+                                             textStyle={{
+                                                 fontFamily: "monospace, Roboto, sans-serif",
+                                                 display: "table-cell",
+                                                 verticalAlign: "top",
+                                                 padding: "2px",
+                                             }}
+                                             enableClipboard={false}
+                                             jsonItem={messagePart.value}/>;
+                        } else {
+                            return <div key={messagePart.key}
+                                        style={{
+                                            fontFamily: "Roboto, sans-serif",
+                                            color: "rgb(255, 255, 255)",
+                                            display: "table-cell",
+                                            paddingLeft: "5px",
+                                            paddingRight: "5px",
+                                            whiteSpace: "pre",
+                                        }}>{messagePart.value}</div>;
+                        }
                     }
-                }
-            })}
-        </div>)
+                }) : <div style={Object.assign({
+                    fontSize: "19px",
+                    lineHeight: "25px"
+                }, cellStyle)}>
+                    <svg className={"logGroupSummaryClosed"} viewBox="0 0 15 15" fill="currentColor" style={{
+                        verticalAlign: "top",
+                        color: "rgb(178, 148, 187)",
+                        height: "1em",
+                        width: "1em",
+                        paddingLeft: "2px",
+                        paddingTop: "5px",
+                    }}>
+                        <path d="M0 14l6-6-6-6z"/>
+                    </svg>
+                    <svg className={"logGroupSummaryOpen"} viewBox="0 0 15 15" fill="currentColor" style={{
+                        verticalAlign: "top",
+                        color: "rgb(129, 162, 190)",
+                        height: "1em",
+                        width: "1em",
+                        paddingLeft: "2px",
+                        paddingTop: "5px",
+                    }}>
+                        <path d="M0 5l6 6 6-6z"/>
+                    </svg>
+                    <span className={"logGroupSummaryClosed"}>...</span></div>}
+            </div>;
+        }
+
+        if (group) {
+            return (<details className={"logGroup"}>
+                <summary style={{
+                    color: "rgb(222, 147, 95)",
+                    // backgroundColor: "rgb(43, 52, 62)"
+                }}><LogMessage key={group.key + "_summary"}
+                               logMessage={group.value}/></summary>
+                <div style={{
+                    borderStyle: "dashed",
+                    borderColor: "rgb(43, 52, 62)",
+                    marginLeft: "35px",
+                    marginTop: "10px",
+                    marginRight: "5px",
+                    marginBottom: "10px",
+                    display: "inline-block",
+                    paddingLeft: "5px",
+                    paddingRight: "5px",
+                    paddingBottom: "5px",
+                }}>{logMessage.map((item, index) => <LogMessage index={index}
+                                                                indent={true}
+                                                                key={item.key}
+                                                                logMessage={item.value}/>)}</div>
+            </details>);
+        } else {
+            return renderItem(logMessage);
+        }
     }
 };

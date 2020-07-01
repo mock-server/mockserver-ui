@@ -6,10 +6,10 @@ import ListHeader from "../components/ListHeader";
 export default class LogList extends Component {
     static propTypes = {
         header: PropTypes.string.isRequired,
-        items: PropTypes.arrayOf(PropTypes.shape({
+        items: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape({
             key: PropTypes.string.isRequired,
             value: PropTypes.object.isRequired
-        })).isRequired,
+        })).isRequired, PropTypes.array.isRequired]).isRequired,
     };
 
     render() {
@@ -24,26 +24,23 @@ export default class LogList extends Component {
                 <ListHeader text={header}/>
                 <div style={{
                     overflowY: "scroll",
-                    maxHeight: "400px",
+                    maxHeight: "700px",
                     minHeight: "100px",
                     borderRadius: "5px",
                     margin: "2px 0px 3px",
-                    padding: "5px",
+                    paddingTop: "5px",
+                    paddingBottom: "5px",
                     backgroundColor: "rgb(29, 31, 33)",
                     color: "rgb(250, 250, 250)",
                 }}>
-                    <div style={
-                        {
-                            borderCollapse: "collapse",
-                            display: "table",
-                            minWidth: "100%"
-                        }
-                    }>
-                        {items.map((item, index) => <LogMessage index={index}
-                                                                      key={item.key}
-                                                                      logMessage={item.value}/>)}
-
-                    </div>
+                    <div style={{
+                        borderCollapse: "collapse",
+                        display: "table",
+                        minWidth: "100%"
+                    }}>{items.map((item, index) => <LogMessage index={index}
+                                                               key={item.key}
+                                                               group={item.group}
+                                                               logMessage={item.value}/>)}</div>
                 </div>
             </div>
         );

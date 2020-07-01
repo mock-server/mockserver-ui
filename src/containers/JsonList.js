@@ -26,7 +26,7 @@ export default class JsonList extends Component {
                 <ListHeader text={header}/>
                 <div style={{
                     overflowY: "scroll",
-                    maxHeight: "400px",
+                    maxHeight: "700px",
                     minHeight: "100px",
                     borderRadius: "5px",
                     margin: "2px 0px 3px",

@@ -5,13 +5,50 @@ summary::-webkit-details-marker {
 }
 
 *:focus {
-    outline:0;
+    outline: 0;
 }
 
-details.open > summary {
+details.logGroup summary::-webkit-details-marker {
+    display: none;
+}
+
+details.logGroup > summary:first-of-type {
+    list-style-type: none;
+}
+
+details.logGroup[open]  .logGroupSummaryClosed {
+    display: none;
+}
+
+details.logGroup  .logGroupSummaryClosed {
+    display: inline-block;
+}
+
+details.logGroup  .logGroupSummaryOpen {
+    display: none;
+}
+
+details.logGroup[open]  .logGroupSummaryOpen {
+    display: inline-block;
+}
+
+/*details.logGroup > summary > *,*/
+/*details.logGroup > summary > * > *,*/
+/*details.logGroup > summary > * > * > * {*/
+/*    background-color: rgb(43, 52, 62) !important;*/
+/*}*/
+
+details.because summary::-webkit-details-marker {
+    display: inline-block;
+}
+
+details.because > summary:first-of-type {
+    list-style-type: inline-block;
+}
+details.because.open > summary {
     visibility: hidden;
 }
 
-details[open] summary span {
+details.because[open] summary span {
     visibility: hidden;
 }

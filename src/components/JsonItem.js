@@ -22,7 +22,11 @@ export default class JsonItem extends Component {
         function addDescription(description, jsonDiv) {
             if (description.json) {
                 return <div key={"description"}
-                            style={{display: "table-row"}}>
+                            style={{
+                                display: "table-row",
+                                maxWidth: "200px",
+                                overflow: "hidden"
+                            }}>
                     <JsonItem key={"description_first"}
                               index={null}
                               collapsed="0"
@@ -69,6 +73,9 @@ export default class JsonItem extends Component {
                                   fontFamily: "monospace, Roboto, sans-serif",
                                   display: "table-cell",
                                   padding: "5px",
+                                  maxWidth: "1100px",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis"
                               }}
                               enableClipboard={false}
                               jsonItem={description}/>
