@@ -125,25 +125,7 @@ export default class JsonItem extends Component {
                                    onAdd={false}
                                    onDelete={false}/>);
             }
-        } else if (typeof jsonItem === "string" && jsonItem.length > 50) {
-            return (<details style={textStyle}>
-                <summary style={{
-                    color: "rgb(222, 147, 95)",
-                    fontSize: "30px",
-                    lineHeight: "15px",
-                    display: "inline-block"
-                }}><span>...</span>
-                </summary>
-                <pre style={{
-                    position: "relative",
-                    top: "-5px",
-                    left: "20px",
-                    paddingRight: "35px"
-                }}>{jsonItem}</pre>
-            </details>);
         } else if (typeof jsonItem === "string") {
-            return (<pre style={textStyle}>{jsonItem}</pre>);
-        } else if (typeof jsonItem === "number") {
             return (<pre style={textStyle}>{jsonItem}</pre>);
         } else {
             return (<div/>);
