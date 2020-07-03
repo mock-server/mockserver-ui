@@ -87,7 +87,7 @@ export default class LogMessage extends Component {
                                                  verticalAlign: "top",
                                                  padding: "2px",
                                              }}
-                                             enableClipboard={false}
+                                             enableClipboard={true}
                                              jsonItem={messagePart.value}/>;
                         } else {
                             return <div key={messagePart.key}
