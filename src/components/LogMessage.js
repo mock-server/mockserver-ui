@@ -10,6 +10,20 @@ export default class LogMessage extends Component {
     };
 
     render() {
+
+        function addLinks(value) {
+            var urlMatch = value.match("(http){1}.*(\.html){1}");
+            if (urlMatch) {
+                let matchedUrl = urlMatch[0];
+                return (<span>{value.substr(0, value.indexOf(matchedUrl))}<a style={{
+                    textDecoration: "underline",
+                    color: "rgb(95, 113, 245)"
+                }} href={matchedUrl} target="_blank">{matchedUrl}</a>{value.substr(value.indexOf(matchedUrl) + matchedUrl.length)}</span>);
+            } else {
+                return value;
+            }
+        }
+
         const {
             logMessage = {},
             group = false,
@@ -33,7 +47,7 @@ export default class LogMessage extends Component {
                 {logMessage.messageParts ? logMessage.messageParts.map((messagePart) => {
                     if (!messagePart.argument) {
                         return <div key={messagePart.key}
-                                    style={cellStyle}>{messagePart.value}</div>;
+                                    style={cellStyle}>{addLinks(messagePart.value)}</div>;
                     } else {
                         if (messagePart.multiline || messagePart.because) {
                             let reason = messagePart.value.map(
@@ -98,7 +112,7 @@ export default class LogMessage extends Component {
                                             paddingLeft: "5px",
                                             paddingRight: "5px",
                                             whiteSpace: "pre",
-                                        }}>{messagePart.value}</div>;
+                                        }}>{addLinks(messagePart.value)}</div>;
                         }
                     }
                 }) : <div style={Object.assign({
