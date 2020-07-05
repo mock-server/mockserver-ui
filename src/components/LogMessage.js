@@ -45,74 +45,76 @@ export default class LogMessage extends Component {
                     position: "relative",
                 }, cellStyle)}>{logMessage.description}</div>
                 {logMessage.messageParts ? logMessage.messageParts.map((messagePart) => {
-                    if (!messagePart.argument) {
-                        return <div key={messagePart.key}
-                                    style={cellStyle}>{addLinks(messagePart.value)}</div>;
-                    } else {
-                        if (messagePart.multiline || messagePart.because) {
-                            let reason = messagePart.value.map(
-                                (reason, index) => {
-                                    let color = "rgb(255, 255, 255)";
-                                    if (messagePart.because) {
-                                        if (reason.indexOf("matched") !== -1) {
-                                            color = "rgb(107, 199, 118)";
-                                        } else if (reason.indexOf("didn't match") !== -1) {
-                                            color = "rgb(216, 88, 118)";
-                                        } else {
-                                            color = "rgb(255, 255, 255)";
-                                        }
-                                    }
-                                    return <span key={messagePart.key + "_" + index}
-                                                 style={{
-                                                     marginTop: "-10px",
-                                                     color: color,
-                                                     display: "block",
-                                                     fontSize: "0.95em",
-                                                     lineHeight: "1.5em",
-                                                     whiteSpace: "pre",
-                                                     paddingLeft: "20px",
-                                                     paddingBottom: "10px",
-                                                 }}>{reason}</span>
-                                }
-                            );
+                    if (messagePart.value) {
+                        if (!messagePart.argument) {
                             return <div key={messagePart.key}
-                                        style={Object.assign({paddingLeft: "5px",}, cellStyle)}>
-                                <details className={"because"}>
-                                    <summary style={{
-                                        color: "rgb(222, 147, 95)",
-                                        fontSize: "19px",
-                                        lineHeight: "25px",
-                                        paddingLeft: "5px",
-                                        paddingTop: "0px",
-                                        marginTop: "-1px",
-                                    }}><span>...</span>
-                                    </summary>
-                                    {reason}
-                                </details>
-                            </div>;
-                        } else if (messagePart.json) {
-                            return <JsonItem key={messagePart.key}
-                                             index={null}
-                                             collapsed="0"
-                                             display={"table-cell"}
-                                             textStyle={{
-                                                 fontFamily: "monospace, Roboto, sans-serif",
-                                                 display: "table-cell",
-                                                 verticalAlign: "top",
-                                                 padding: "2px",
-                                             }}
-                                             enableClipboard={true}
-                                             jsonItem={messagePart.value}/>;
+                                        style={cellStyle}>{addLinks(messagePart.value)}</div>;
                         } else {
-                            return <div key={messagePart.key}
-                                        style={{
-                                            fontFamily: "Roboto, sans-serif",
-                                            color: "rgb(255, 255, 255)",
-                                            display: "table-cell",
+                            if (messagePart.multiline || messagePart.because) {
+                                let reason = messagePart.value.map(
+                                    (reason, index) => {
+                                        let color = "rgb(255, 255, 255)";
+                                        if (messagePart.because) {
+                                            if (reason.indexOf("matched") !== -1) {
+                                                color = "rgb(107, 199, 118)";
+                                            } else if (reason.indexOf("didn't match") !== -1) {
+                                                color = "rgb(216, 88, 118)";
+                                            } else {
+                                                color = "rgb(255, 255, 255)";
+                                            }
+                                        }
+                                        return <span key={messagePart.key + "_" + index}
+                                                     style={{
+                                                         marginTop: "-10px",
+                                                         color: color,
+                                                         display: "block",
+                                                         fontSize: "0.95em",
+                                                         lineHeight: "1.5em",
+                                                         whiteSpace: "pre",
+                                                         paddingLeft: "20px",
+                                                         paddingBottom: "10px",
+                                                     }}>{reason}</span>
+                                    }
+                                );
+                                return <div key={messagePart.key}
+                                            style={Object.assign({paddingLeft: "5px",}, cellStyle)}>
+                                    <details className={"because"}>
+                                        <summary style={{
+                                            color: "rgb(222, 147, 95)",
+                                            fontSize: "19px",
+                                            lineHeight: "25px",
                                             paddingLeft: "5px",
-                                            paddingRight: "5px",
-                                            whiteSpace: "pre",
-                                        }}>{addLinks(messagePart.value)}</div>;
+                                            paddingTop: "0px",
+                                            marginTop: "-1px",
+                                        }}><span>...</span>
+                                        </summary>
+                                        {reason}
+                                    </details>
+                                </div>;
+                            } else if (messagePart.json) {
+                                return <JsonItem key={messagePart.key}
+                                                 index={null}
+                                                 collapsed="0"
+                                                 display={"table-cell"}
+                                                 textStyle={{
+                                                     fontFamily: "monospace, Roboto, sans-serif",
+                                                     display: "table-cell",
+                                                     verticalAlign: "top",
+                                                     padding: "2px",
+                                                 }}
+                                                 enableClipboard={true}
+                                                 jsonItem={messagePart.value}/>;
+                            } else {
+                                return <div key={messagePart.key}
+                                            style={{
+                                                fontFamily: "Roboto, sans-serif",
+                                                color: "rgb(255, 255, 255)",
+                                                display: "table-cell",
+                                                paddingLeft: "5px",
+                                                paddingRight: "5px",
+                                                whiteSpace: "pre",
+                                            }}>{addLinks(messagePart.value)}</div>;
+                            }
                         }
                     }
                 }) : <div style={Object.assign({
