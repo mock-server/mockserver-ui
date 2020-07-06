@@ -12,13 +12,13 @@ export default class LogMessage extends Component {
     render() {
 
         function addLinks(value) {
-            var urlMatch = value.match("(http){1}.*(\.html){1}");
+            var urlMatch = value.match("(http){1}s?://[^\\s]*");
             if (urlMatch) {
                 let matchedUrl = urlMatch[0];
                 return (<span>{value.substr(0, value.indexOf(matchedUrl))}<a style={{
                     textDecoration: "underline",
                     color: "rgb(95, 113, 245)"
-                }} href={matchedUrl} target="_blank">{matchedUrl}</a>{value.substr(value.indexOf(matchedUrl) + matchedUrl.length)}</span>);
+                }} href={matchedUrl} target="_blank" rel="noopener noreferrer">{matchedUrl}</a>{value.substr(value.indexOf(matchedUrl) + matchedUrl.length)}</span>);
             } else {
                 return value;
             }
@@ -51,7 +51,7 @@ export default class LogMessage extends Component {
                                         style={cellStyle}>{addLinks(messagePart.value)}</div>;
                         } else {
                             if (messagePart.multiline || messagePart.because) {
-                                let reason = messagePart.value.map(
+                                let line = messagePart.value.map(
                                     (reason, index) => {
                                         let color = "rgb(255, 255, 255)";
                                         if (messagePart.because) {
@@ -73,7 +73,7 @@ export default class LogMessage extends Component {
                                                          whiteSpace: "pre",
                                                          paddingLeft: "20px",
                                                          paddingBottom: "10px",
-                                                     }}>{reason}</span>
+                                                     }}>{addLinks(reason)}</span>
                                     }
                                 );
                                 return <div key={messagePart.key}
@@ -88,7 +88,7 @@ export default class LogMessage extends Component {
                                             marginTop: "-1px",
                                         }}><span>...</span>
                                         </summary>
-                                        {reason}
+                                        {line}
                                     </details>
                                 </div>;
                             } else if (messagePart.json) {
@@ -113,9 +113,12 @@ export default class LogMessage extends Component {
                                                 paddingLeft: "5px",
                                                 paddingRight: "5px",
                                                 whiteSpace: "pre",
+                                                letterSpacing: "0.12em",
                                             }}>{addLinks(messagePart.value)}</div>;
                             }
                         }
+                    } else {
+                        return <span/>;
                     }
                 }) : <div style={Object.assign({
                     fontSize: "19px",
