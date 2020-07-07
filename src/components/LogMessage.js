@@ -113,7 +113,7 @@ export default class LogMessage extends Component {
                                                 paddingLeft: "5px",
                                                 paddingRight: "5px",
                                                 whiteSpace: "pre",
-                                                letterSpacing: "0.12em",
+                                                letterSpacing: "0.08em",
                                             }}>{addLinks(messagePart.value)}</div>;
                             }
                         }
