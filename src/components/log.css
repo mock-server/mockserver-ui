@@ -16,19 +16,19 @@ details.logGroup > summary:first-of-type {
     list-style-type: none;
 }
 
-details.logGroup[open]  .logGroupSummaryClosed {
+details.logGroup[open] .logGroupSummaryClosed {
     display: none;
 }
 
-details.logGroup  .logGroupSummaryClosed {
+details.logGroup .logGroupSummaryClosed {
     display: inline-block;
 }
 
-details.logGroup  .logGroupSummaryOpen {
+details.logGroup .logGroupSummaryOpen {
     display: none;
 }
 
-details.logGroup[open]  .logGroupSummaryOpen {
+details.logGroup[open] .logGroupSummaryOpen {
     display: inline-block;
 }
 
@@ -38,17 +38,26 @@ details.logGroup[open]  .logGroupSummaryOpen {
 /*    background-color: rgb(43, 52, 62) !important;*/
 /*}*/
 
-details.because summary::-webkit-details-marker {
+details.because[open] .summaryClosed {
+    display: none;
+}
+
+details.because .summaryClosed {
     display: inline-block;
 }
 
-details.because > summary:first-of-type {
-    list-style-type: inline-block;
-}
-details.because.open > summary {
-    visibility: hidden;
+details.because .summaryOpen {
+    display: none;
 }
 
-details.because[open] summary span {
-    visibility: hidden;
+details.because[open] .summaryOpen {
+    display: inline-block;
+}
+
+details.because summary::-webkit-details-marker {
+    display: none;
+}
+
+details.because > summary:first-of-type {
+    list-style-type: none;
 }

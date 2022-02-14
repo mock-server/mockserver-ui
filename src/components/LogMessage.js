@@ -63,6 +63,7 @@ export default class LogMessage extends Component {
                                                 color = "rgb(255, 255, 255)";
                                             }
                                         }
+                                        console.log("66:" + JSON.stringify(messagePart));
                                         return <span key={messagePart.key + "_" + index}
                                                      style={{
                                                          marginTop: "-10px",
@@ -76,6 +77,7 @@ export default class LogMessage extends Component {
                                                      }}>{addLinks(reason)}</span>
                                     }
                                 );
+                                console.log("80:" + JSON.stringify(messagePart));
                                 return <div key={messagePart.key}
                                             style={Object.assign({paddingLeft: "5px",}, cellStyle)}>
                                     <details className={"because"}>
@@ -86,12 +88,36 @@ export default class LogMessage extends Component {
                                             paddingLeft: "5px",
                                             paddingTop: "0px",
                                             marginTop: "-1px",
-                                        }}><span>...</span>
+                                        }}><span>
+                                            <svg className={"summaryClosed"} viewBox="0 0 15 15" fill="currentColor" style={{
+                                                verticalAlign: "top",
+                                                color: "rgb(178, 148, 187)",
+                                                height: "1em",
+                                                width: "1em",
+                                                paddingLeft: "2px",
+                                                paddingTop: "5px"
+                                            }}>
+                                                <path d="M0 14l6-6-6-6z"/>
+                                            </svg>
+                                            <svg className={"summaryOpen"} viewBox="0 0 15 15" fill="currentColor" style={{
+                                                verticalAlign: "top",
+                                                color: "rgb(129, 162, 190)",
+                                                height: "1em",
+                                                width: "1em",
+                                                paddingLeft: "2px",
+                                                paddingTop: "5px",
+                                                paddingBottom: "15px",
+                                            }}>
+                                                <path d="M0 5l6 6 6-6z"/>
+                                            </svg>
+                                            <span className={"summaryClosed"}>...</span>
+                                        </span>
                                         </summary>
                                         {line}
                                     </details>
                                 </div>;
                             } else if (messagePart.json) {
+                                console.log("97:" + JSON.stringify(messagePart));
                                 return <JsonItem key={messagePart.key}
                                                  index={null}
                                                  collapsed="0"
@@ -103,7 +129,7 @@ export default class LogMessage extends Component {
                                                      padding: "2px",
                                                  }}
                                                  enableClipboard={true}
-                                                 jsonItem={messagePart.value}/>;
+                                                 jsonItem={typeof messagePart.value === "number" ? "" + messagePart.value : messagePart.value}/>;
                             } else {
                                 return <div key={messagePart.key}
                                             style={{
