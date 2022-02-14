@@ -22,6 +22,14 @@ For development this node module can be run using `npm start` and can be pointed
 http://localhost:3000/?host=localhost&port=1080&context=
 ```
 
+To run locally:
+```bash
+# 1. run node 
+npm start
+# 2. navigate to UI
+open http://localhost:3000/?port=1080
+```
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
