@@ -63,7 +63,6 @@ export default class LogMessage extends Component {
                                                 color = "rgb(255, 255, 255)";
                                             }
                                         }
-                                        console.log("66:" + JSON.stringify(messagePart));
                                         return <span key={messagePart.key + "_" + index}
                                                      style={{
                                                          marginTop: "-10px",
@@ -77,7 +76,6 @@ export default class LogMessage extends Component {
                                                      }}>{addLinks(reason)}</span>
                                     }
                                 );
-                                console.log("80:" + JSON.stringify(messagePart));
                                 return <div key={messagePart.key}
                                             style={Object.assign({paddingLeft: "5px",}, cellStyle)}>
                                     <details className={"because"}>
@@ -117,16 +115,18 @@ export default class LogMessage extends Component {
                                     </details>
                                 </div>;
                             } else if (messagePart.json) {
-                                console.log("97:" + JSON.stringify(messagePart));
                                 return <JsonItem key={messagePart.key}
                                                  index={null}
                                                  collapsed="0"
                                                  display={"table-cell"}
                                                  textStyle={{
                                                      fontFamily: "monospace, Roboto, sans-serif",
+                                                     color: "rgb(255, 255, 255)",
                                                      display: "table-cell",
-                                                     verticalAlign: "top",
-                                                     padding: "2px",
+                                                     paddingLeft: "5px",
+                                                     paddingRight: "5px",
+                                                     whiteSpace: "pre",
+                                                     letterSpacing: "0.08em",
                                                  }}
                                                  enableClipboard={true}
                                                  jsonItem={typeof messagePart.value === "number" ? "" + messagePart.value : messagePart.value}/>;
