@@ -1,3 +1,12 @@
+# This repository has been archived
+
+This project has been merged into the MockServer monorepo:
+**https://github.com/mock-server/mockserver-monorepo**
+
+The code now lives in the `mockserver-ui/` subdirectory of the monorepo.
+
+All new issues and pull requests should be filed against the monorepo.
+
 # mockserver-ui 
 
 > A dashboard to view the expectations, requests, and logs in [MockServer](http://mock-server.com/)
